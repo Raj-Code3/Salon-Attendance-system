@@ -1,5 +1,1 @@
-web:
-gunicorn
-salontrack_project.wsgi
---log-file
--
+web: gunicorn salontrack_project.wsgi --log-file -
