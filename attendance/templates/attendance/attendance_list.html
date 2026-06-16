@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Attendance – SalonTrack Pro{% endblock %}
+{% block page_title %}Attendance Records{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <div>
+    <h5 class="fw-bold mb-1">📅 Attendance Records</h5>
+    <p class="text-muted mb-0" style="font-size:.85rem">Filter and view all attendance</p>
+  </div>
+</div>
+
+<div class="form-card mb-4">
+  <div class="section-header">🔍 Filter Attendance</div>
+  <form method="GET">
+    <div class="row g-3">
+      <div class="col-md-2">
+        <label style="font-size:.8rem;font-weight:600">DATE</label>
+        {{ form.date }}
+      </div>
+      <div class="col-md-2">
+        <label style="font-size:.8rem;font-weight:600">MONTH</label>
+        {{ form.month }}
+      </div>
+      <div class="col-md-2">
+        <label style="font-size:.8rem;font-weight:600">YEAR</label>
+        {{ form.year }}
+      </div>
+      <div class="col-md-3">
+        <label style="font-size:.8rem;font-weight:600">EMPLOYEE</label>
+        {{ form.employee }}
+      </div>
+      <div class="col-md-2">
+        <label style="font-size:.8rem;font-weight:600">STATUS</label>
+        {{ form.status }}
+      </div>
+      <div class="col-md-1 d-flex align-items-end">
+        <button type="submit" class="btn w-100" style="background:#1F3A5F;color:#fff;border-radius:10px">Go</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="table-card card">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>Employee</th><th>Date</th><th>Check In</th><th>Check Out</th><th>Hours</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for att in records %}
+        <tr>
+          <td>
+            <div style="font-weight:600;font-size:.88rem">{{ att.employee.full_name }}</div>
+            <div style="font-size:.75rem;color:#6b7280">{{ att.employee.employee_id }}</div>
+          </td>
+          <td style="font-size:.88rem">{{ att.date }}</td>
+          <td>{{ att.check_in|time:"h:i A"|default:"—" }}</td>
+          <td>{{ att.check_out|time:"h:i A"|default:"—" }}</td>
+          <td>{{ att.total_hours|default:"—" }}</td>
+          <td><span class="status-badge badge-{{ att.status|lower|cut:' ' }}">{{ att.status }}</span></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" class="text-center text-muted py-5">No attendance records found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if records.has_other_pages %}
+  <div class="card-body" style="border-top:1px solid #f3f4f6">
+    <nav><ul class="pagination pagination-sm mb-0 justify-content-center">
+      {% if records.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ records.previous_page_number }}">‹</a></li>{% endif %}
+      {% for n in records.paginator.page_range %}<li class="page-item {% if n == records.number %}active{% endif %}"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>{% endfor %}
+      {% if records.has_next %}<li class="page-item"><a class="page-link" href="?page={{ records.next_page_number }}">›</a></li>{% endif %}
+    </ul></nav>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

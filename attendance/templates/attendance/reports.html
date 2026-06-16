@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}Reports{% endblock %}
+{% block page_title %}Reports{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <h5 class="fw-bold mb-0">📊 Attendance Reports</h5>
+</div>
+
+<div class="form-card mb-4">
+  <div class="section-header">🔍 Report Filters</div>
+  <form method="GET" class="row g-3">
+    <div class="col-md-3">
+      <label style="font-size:.8rem;font-weight:600">MONTH</label>
+      <select name="month" class="form-select" style="border-radius:10px">
+        {% for m in "1 2 3 4 5 6 7 8 9 10 11 12"|split:" " %}
+        <option value="{{ m }}" {% if month == m|add:0 %}selected{% endif %}>Month {{ m }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <label style="font-size:.8rem;font-weight:600">YEAR</label>
+      <input type="number" name="year" value="{{ year }}" class="form-control" style="border-radius:10px"/>
+    </div>
+    <div class="col-md-4">
+      <label style="font-size:.8rem;font-weight:600">EMPLOYEE (Optional)</label>
+      <select name="employee" class="form-select" style="border-radius:10px">
+        <option value="">All Employees</option>
+        {% for emp in employees %}
+        <option value="{{ emp.pk }}" {% if emp_id == emp.pk|stringformat:'s' %}selected{% endif %}>{{ emp.full_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+      <button type="submit" class="btn w-100" style="background:#1F3A5F;color:#fff;border-radius:10px">Generate</button>
+    </div>
+  </form>
+</div>
+
+<!-- Monthly Report -->
+<div class="table-card card mb-4">
+  <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6">
+    <span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">📅 Monthly Report – Month {{ month }}, {{ year }}</span>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr><th>Employee</th><th>Employee ID</th><th style="color:#28A745">Present</th><th style="color:#FFC107">Late</th><th style="color:#DC3545">Absent</th><th style="color:#6f42c1">Leave</th><th style="color:#0d6efd">Half Day</th></tr>
+      </thead>
+      <tbody>
+        {% for row in monthly_data %}
+        <tr>
+          <td style="font-weight:600;font-size:.88rem">{{ row.employee.full_name }}</td>
+          <td style="font-size:.85rem;color:#6b7280">{{ row.employee.employee_id }}</td>
+          <td><span style="background:#d1fae5;color:#065f46;border-radius:8px;padding:.25rem .6rem;font-size:.82rem;font-weight:600">{{ row.present }}</span></td>
+          <td><span style="background:#fef3c7;color:#92400e;border-radius:8px;padding:.25rem .6rem;font-size:.82rem;font-weight:600">{{ row.late }}</span></td>
+          <td><span style="background:#fee2e2;color:#991b1b;border-radius:8px;padding:.25rem .6rem;font-size:.82rem;font-weight:600">{{ row.absent }}</span></td>
+          <td><span style="background:#f3e8ff;color:#6b21a8;border-radius:8px;padding:.25rem .6rem;font-size:.82rem;font-weight:600">{{ row.leave }}</span></td>
+          <td><span style="background:#dbeafe;color:#1d4ed8;border-radius:8px;padding:.25rem .6rem;font-size:.82rem;font-weight:600">{{ row.half_day }}</span></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="text-center text-muted py-4">No data for this period.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Daily Report -->
+<div class="table-card card">
+  <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6">
+    <span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">🕐 Today's Daily Report – {{ today }}</span>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>Employee</th><th>Check In</th><th>Check Out</th><th>Hours Worked</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for att in daily_att %}
+        <tr>
+          <td>
+            <div style="font-weight:600;font-size:.88rem">{{ att.employee.full_name }}</div>
+            <div style="font-size:.75rem;color:#6b7280">{{ att.employee.employee_id }}</div>
+          </td>
+          <td>{{ att.check_in|time:"h:i A"|default:"—" }}</td>
+          <td>{{ att.check_out|time:"h:i A"|default:"—" }}</td>
+          <td style="font-weight:600">{{ att.total_hours|default:"—" }} hrs</td>
+          <td><span class="status-badge badge-{{ att.status|lower|cut:' ' }}">{{ att.status }}</span></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-center text-muted py-4">No attendance marked today.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

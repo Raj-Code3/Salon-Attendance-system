@@ -1,0 +1,33 @@
+# SalonTrack Pro – Setup Guide
+
+## Step 1 – Install dependencies
+    pip install -r requirements.txt
+
+## Step 2 – Run migrations
+    python manage.py makemigrations attendance
+    python manage.py migrate
+
+## Step 3 – Create superuser (Admin)
+    python manage.py createsuperuser
+
+## Step 4 – Run the server
+    python manage.py runserver
+
+## Step 5 – Open in browser
+    http://127.0.0.1:8000
+
+## Login
+- Admin: use superuser credentials
+- Employee: username = email prefix (e.g. john@salon.com → john), password = salon@123
+
+## Adding Employees
+1. Login as admin
+2. Go to Employees → Add Employee
+3. Fill in details
+4. Employee gets a login with username = email prefix
+
+## Attendance Rules
+- Check-in before 10:00 AM = Present
+- Check-in after 10:00 AM  = Late
+- Total hours < 4           = Half Day
+- No check-in               = Absent

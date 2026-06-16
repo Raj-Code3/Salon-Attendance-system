@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} – SalonTrack Pro{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="form-card">
+      <div class="section-header">👤 {{ title }}</div>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Employee ID *</label>
+            {{ form.employee_id }}
+            {% if form.employee_id.errors %}<div class="text-danger mt-1" style="font-size:.78rem">{{ form.employee_id.errors.as_text }}</div>{% endif %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Full Name *</label>
+            {{ form.full_name }}
+            {% if form.full_name.errors %}<div class="text-danger mt-1" style="font-size:.78rem">{{ form.full_name.errors.as_text }}</div>{% endif %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Email *</label>
+            {{ form.email }}
+            {% if form.email.errors %}<div class="text-danger mt-1" style="font-size:.78rem">{{ form.email.errors.as_text }}</div>{% endif %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Phone</label>
+            {{ form.phone }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Gender</label>
+            {{ form.gender }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Salary (₹)</label>
+            {{ form.salary }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Status</label>
+            {{ form.status }}
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Address</label>
+            {{ form.address }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Profile Photo</label>
+            {{ form.profile_photo }}
+          </div>
+
+          <div class="col-12"><hr style="border-color:#e5e7eb"/></div>
+          <div class="col-12">
+            <div style="background:#dbeafe;border-radius:10px;padding:.85rem 1rem;font-size:.85rem;color:#1d4ed8;margin-bottom:.5rem">
+              🔑 <strong>Login Credentials</strong> — Employee will use these to log in
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Login Username *</label>
+            {{ form.username }}
+            {% if form.username.errors %}<div class="text-danger mt-1" style="font-size:.78rem">{{ form.username.errors.as_text }}</div>{% endif %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" style="font-size:.82rem">Login Password</label>
+            {{ form.password }}
+            <div class="form-text">Leave blank to use default: <strong>salon@123</strong></div>
+            {% if form.password.errors %}<div class="text-danger mt-1" style="font-size:.78rem">{{ form.password.errors.as_text }}</div>{% endif %}
+          </div>
+        </div>
+
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger mt-3" style="border-radius:10px;font-size:.85rem">
+          {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <div class="d-flex gap-2 mt-4">
+          <button type="submit" class="btn" style="background:#1F3A5F;color:#fff;border-radius:10px;font-weight:600;padding:.65rem 1.5rem">
+            <i class="bi bi-check-circle me-2"></i>Save Employee
+          </button>
+          <a href="{% url 'employee_list' %}" class="btn btn-outline-secondary" style="border-radius:10px">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

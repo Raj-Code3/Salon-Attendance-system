@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}{{ employee.full_name }} – SalonTrack Pro{% endblock %}
+{% block page_title %}Employee Detail{% endblock %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-md-4">
+    <div class="form-card text-center">
+      {% if employee.profile_photo %}
+        <img src="{{ employee.profile_photo.url }}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #1F3A5F"/>
+      {% else %}
+        <div style="width:100px;height:100px;border-radius:50%;background:#1F3A5F;color:#fff;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;margin:0 auto">{{ employee.full_name|first|upper }}</div>
+      {% endif %}
+      <h5 class="fw-bold mt-3 mb-1">{{ employee.full_name }}</h5>
+      <div style="color:#6b7280;font-size:.85rem">{{ employee.employee_id }}</div>
+      <span class="status-badge badge-{{ employee.status|lower }} mt-2 d-inline-block">{{ employee.status }}</span>
+      <hr/>
+      <div class="text-start" style="font-size:.85rem">
+        <div class="mb-2"><i class="bi bi-envelope me-2 text-muted"></i>{{ employee.email }}</div>
+        <div class="mb-2"><i class="bi bi-phone me-2 text-muted"></i>{{ employee.phone }}</div>
+        <div class="mb-2"><i class="bi bi-gender-ambiguous me-2 text-muted"></i>{{ employee.gender }}</div>
+        <div class="mb-2"><i class="bi bi-currency-rupee me-2 text-muted"></i>₹{{ employee.salary }}</div>
+        {% if employee.address %}<div><i class="bi bi-geo-alt me-2 text-muted"></i>{{ employee.address }}</div>{% endif %}
+      </div>
+      <div class="d-flex gap-2 mt-3">
+        <a href="{% url 'employee_edit' employee.pk %}" class="btn btn-sm flex-fill" style="background:#1F3A5F;color:#fff;border-radius:8px">Edit</a>
+      </div>
+    </div>
+
+    <div class="form-card mt-3">
+      <div class="section-header">📊 This Month</div>
+      <div class="row g-2 text-center">
+        <div class="col-6"><div style="background:#d1fae5;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#065f46">{{ stats.present }}</div><div style="font-size:.72rem;color:#065f46">Present</div></div></div>
+        <div class="col-6"><div style="background:#fee2e2;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#991b1b">{{ stats.absent }}</div><div style="font-size:.72rem;color:#991b1b">Absent</div></div></div>
+        <div class="col-6"><div style="background:#fef3c7;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#92400e">{{ stats.late }}</div><div style="font-size:.72rem;color:#92400e">Late</div></div></div>
+        <div class="col-6"><div style="background:#f3e8ff;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#6b21a8">{{ stats.leave }}</div><div style="font-size:.72rem;color:#6b21a8">Leave</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="table-card card mb-3">
+      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6"><span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">Recent Attendance</span></div>
+      <table class="table table-hover mb-0">
+        <thead><tr><th>Date</th><th>Check In</th><th>Check Out</th><th>Hours</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for att in attendance %}
+          <tr>
+            <td style="font-weight:500;font-size:.88rem">{{ att.date }}</td>
+            <td>{{ att.check_in|time:"h:i A"|default:"—" }}</td>
+            <td>{{ att.check_out|time:"h:i A"|default:"—" }}</td>
+            <td>{{ att.total_hours|default:"—" }}</td>
+            <td><span class="status-badge badge-{{ att.status|lower|cut:' ' }}">{{ att.status }}</span></td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="text-center text-muted py-3">No attendance records.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-card card">
+      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6"><span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">Leave History</span></div>
+      <table class="table table-hover mb-0">
+        <thead><tr><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for leave in leaves %}
+          <tr>
+            <td style="font-size:.88rem;font-weight:500">{{ leave.leave_type }}</td>
+            <td style="font-size:.85rem">{{ leave.start_date }}</td>
+            <td style="font-size:.85rem">{{ leave.end_date }}</td>
+            <td style="font-size:.85rem">{{ leave.total_days }}</td>
+            <td><span class="status-badge badge-{{ leave.status|lower }}">{{ leave.status }}</span></td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="5" class="text-center text-muted py-3">No leave records.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

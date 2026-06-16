@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Holidays{% endblock %}
+{% block page_title %}Holidays{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <h5 class="fw-bold mb-0">🎉 Holidays</h5>
+  <a href="{% url 'holiday_add' %}" class="btn" style="background:#1F3A5F;color:#fff;border-radius:10px;font-weight:600">
+    <i class="bi bi-plus me-1"></i>Add Holiday
+  </a>
+</div>
+<div class="table-card card">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>#</th><th>Holiday Name</th><th>Date</th><th>Description</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for holiday in holidays %}
+        <tr>
+          <td style="color:#6b7280;font-size:.85rem">{{ forloop.counter }}</td>
+          <td style="font-weight:600;font-size:.88rem">{{ holiday.holiday_name }}</td>
+          <td style="font-size:.85rem">{{ holiday.date }}</td>
+          <td style="font-size:.82rem;color:#6b7280">{{ holiday.description|default:"—" }}</td>
+          <td>
+            <a href="{% url 'holiday_delete' holiday.pk %}" class="btn btn-sm" style="background:#fee2e2;color:#991b1b;border-radius:8px">
+              <i class="bi bi-trash"></i>
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-center text-muted py-5">No holidays added yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

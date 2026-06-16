@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>{% block title %}SalonTrack Pro{% endblock %}</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --primary:   #1F3A5F;
+  --primary-l: #264a78;
+  --secondary: #4A90E2;
+  --success:   #28A745;
+  --danger:    #DC3545;
+  --warning:   #FFC107;
+  --bg:        #F8F9FA;
+  --text:      #333333;
+  --sidebar-w: 260px;
+  --topbar-h:  60px;
+}
+* { box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); margin:0; }
+
+/* Sidebar */
+.sidebar {
+  width:var(--sidebar-w); height:100vh; position:fixed; top:0; left:0;
+  background:var(--primary); overflow-y:auto; z-index:200;
+  display:flex; flex-direction:column;
+  box-shadow:4px 0 15px rgba(0,0,0,.15);
+}
+.sidebar-brand {
+  padding:1.25rem 1.5rem; border-bottom:1px solid rgba(255,255,255,.1);
+  display:flex; align-items:center; gap:.75rem;
+}
+.sidebar-brand .logo { font-size:1.8rem; }
+.sidebar-brand .brand-text { color:#fff; }
+.sidebar-brand .brand-text h6 { font-weight:700; font-size:.95rem; margin:0; }
+.sidebar-brand .brand-text small { color:rgba(255,255,255,.6); font-size:.7rem; }
+
+.sidebar-section { padding:.75rem 1rem .35rem; color:rgba(255,255,255,.4); font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; }
+
+.sidebar-nav { list-style:none; padding:0 .75rem; margin:0; }
+.sidebar-nav li { margin-bottom:2px; }
+.sidebar-nav a {
+  display:flex; align-items:center; gap:.7rem;
+  padding:.6rem .9rem; border-radius:8px; color:rgba(255,255,255,.75);
+  text-decoration:none; font-size:.875rem; font-weight:500; transition:all .2s;
+}
+.sidebar-nav a:hover  { background:rgba(255,255,255,.1); color:#fff; }
+.sidebar-nav a.active { background:var(--secondary); color:#fff; box-shadow:0 3px 10px rgba(74,144,226,.4); }
+.sidebar-nav a i      { font-size:1rem; width:20px; text-align:center; }
+
+.sidebar-footer { margin-top:auto; padding:1rem; border-top:1px solid rgba(255,255,255,.1); }
+.sidebar-footer a { color:rgba(255,255,255,.6); font-size:.82rem; text-decoration:none; display:flex; align-items:center; gap:.5rem; }
+.sidebar-footer a:hover { color:#fff; }
+
+/* Topbar */
+.topbar {
+  height:var(--topbar-h); position:fixed; top:0; left:var(--sidebar-w); right:0;
+  background:#fff; border-bottom:1px solid #e5e7eb; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.topbar-left { display:flex; align-items:center; gap:1rem; }
+.topbar-title { font-weight:600; font-size:1rem; color:var(--text); }
+.topbar-right { display:flex; align-items:center; gap:1rem; }
+.topbar-user { display:flex; align-items:center; gap:.6rem; cursor:pointer; }
+.topbar-avatar {
+  width:36px; height:36px; border-radius:50%; background:var(--primary);
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:.85rem;
+}
+
+/* Main content */
+.main-wrap { margin-left:var(--sidebar-w); margin-top:var(--topbar-h); padding:1.75rem; min-height:calc(100vh - var(--topbar-h)); }
+
+/* Cards */
+.stat-card { border:none; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.07); overflow:hidden; transition:transform .2s; }
+.stat-card:hover { transform:translateY(-3px); }
+.stat-card .card-body { padding:1.4rem; }
+.stat-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; }
+.stat-val { font-size:2rem; font-weight:700; line-height:1; margin:.35rem 0 .2rem; }
+.stat-lbl { font-size:.8rem; color:#6b7280; font-weight:500; }
+
+/* Tables */
+.table-card { border:none; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.07); overflow:hidden; }
+.table-card .table { margin:0; }
+.table-card .table th { background:#f9fafb; font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#6b7280; border-bottom:1px solid #e5e7eb; padding:.85rem 1rem; }
+.table-card .table td { padding:.85rem 1rem; vertical-align:middle; font-size:.88rem; border-bottom:1px solid #f3f4f6; }
+.table-card .table tr:last-child td { border-bottom:none; }
+.table-card .table tr:hover td { background:#fafafa; }
+
+/* Badges */
+.badge-present  { background:#d1fae5; color:#065f46; }
+.badge-absent   { background:#fee2e2; color:#991b1b; }
+.badge-late     { background:#fef3c7; color:#92400e; }
+.badge-halfday  { background:#e0e7ff; color:#3730a3; }
+.badge-leave    { background:#f3e8ff; color:#6b21a8; }
+.badge-pending  { background:#fef3c7; color:#92400e; }
+.badge-approved { background:#d1fae5; color:#065f46; }
+.badge-rejected { background:#fee2e2; color:#991b1b; }
+.badge-active   { background:#d1fae5; color:#065f46; }
+.badge-inactive { background:#fee2e2; color:#991b1b; }
+
+.status-badge { padding:.3rem .8rem; border-radius:20px; font-size:.75rem; font-weight:600; display:inline-block; }
+
+/* Forms */
+.form-card { border:none; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.07); padding:1.75rem; }
+.section-header { font-size:.75rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:.08em; margin-bottom:1rem; padding-bottom:.5rem; border-bottom:1px solid #e5e7eb; }
+
+/* Alerts */
+.messages-wrap { margin-bottom:1.25rem; }
+.messages-wrap .alert { border-radius:10px; border:none; font-size:.88rem; padding:.75rem 1rem; }
+
+/* Responsive */
+@media(max-width:768px) {
+  .sidebar { transform:translateX(-100%); transition:transform .3s; }
+  .sidebar.open { transform:translateX(0); }
+  .main-wrap { margin-left:0; }
+  .topbar { left:0; }
+}
+</style>
+{% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="logo">✂️</span>
+    <div class="brand-text">
+      <h6>SalonTrack Pro</h6>
+      <small>Attendance Management</small>
+    </div>
+  </div>
+
+  {% if user.is_authenticated %}
+  {% if user.is_staff or user.is_superuser %}
+  <!-- ADMIN NAV -->
+  <div class="sidebar-section mt-2">Main</div>
+  <ul class="sidebar-nav">
+    <li><a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+    <li><a href="{% url 'employee_list' %}" class="{% if 'employee' in request.resolver_match.url_name %}active{% endif %}"><i class="bi bi-people"></i> Employees</a></li>
+    <li><a href="{% url 'attendance_list' %}" class="{% if 'attendance' in request.resolver_match.url_name %}active{% endif %}"><i class="bi bi-calendar-check"></i> Attendance</a></li>
+  </ul>
+  <div class="sidebar-section mt-2">Management</div>
+  <ul class="sidebar-nav">
+    <li><a href="{% url 'leave_list' %}" class="{% if 'leave' in request.resolver_match.url_name %}active{% endif %}"><i class="bi bi-calendar-x"></i> Leave Requests</a></li>
+    <li><a href="{% url 'reports' %}" class="{% if request.resolver_match.url_name == 'reports' %}active{% endif %}"><i class="bi bi-bar-chart"></i> Reports</a></li>
+    <li><a href="{% url 'holiday_list' %}" class="{% if 'holiday' in request.resolver_match.url_name %}active{% endif %}"><i class="bi bi-sun"></i> Holidays</a></li>
+  </ul>
+  <div class="sidebar-section mt-2">System</div>
+  <ul class="sidebar-nav">
+    <li><a href="/admin/" target="_blank"><i class="bi bi-gear"></i> Admin Panel</a></li>
+  </ul>
+  {% else %}
+  <!-- EMPLOYEE NAV -->
+  <div class="sidebar-section mt-2">My Space</div>
+  <ul class="sidebar-nav">
+    <li><a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"><i class="bi bi-house"></i> Dashboard</a></li>
+    <li><a href="{% url 'attendance_list' %}" class="{% if 'attendance' in request.resolver_match.url_name %}active{% endif %}"><i class="bi bi-calendar-check"></i> My Attendance</a></li>
+    <li><a href="{% url 'leave_apply' %}" class="{% if request.resolver_match.url_name == 'leave_apply' %}active{% endif %}"><i class="bi bi-send"></i> Apply Leave</a></li>
+    <li><a href="{% url 'my_leaves' %}" class="{% if request.resolver_match.url_name == 'my_leaves' %}active{% endif %}"><i class="bi bi-list-check"></i> My Leaves</a></li>
+    <li><a href="{% url 'profile' %}" class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}"><i class="bi bi-person"></i> Profile</a></li>
+  </ul>
+  {% endif %}
+
+  <div class="sidebar-footer">
+    <a href="{% url 'logout' %}"><i class="bi bi-box-arrow-left"></i> Logout</a>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Topbar -->
+{% if user.is_authenticated %}
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="btn btn-sm d-md-none" onclick="document.getElementById('sidebar').classList.toggle('open')" style="background:var(--primary);color:#fff;border:none;border-radius:8px;padding:.4rem .7rem">
+      <i class="bi bi-list"></i>
+    </button>
+    <span class="topbar-title">{% block page_title %}Dashboard{% endblock %}</span>
+  </div>
+  <div class="topbar-right">
+    <span style="font-size:.8rem;color:#6b7280">
+      <i class="bi bi-clock me-1"></i>
+      <span id="live-time"></span>
+    </span>
+    <div class="dropdown">
+      <div class="topbar-user dropdown-toggle" data-bs-toggle="dropdown">
+        <div class="topbar-avatar">{{ user.username|first|upper }}</div>
+        <span style="font-size:.85rem;font-weight:600">{{ user.get_full_name|default:user.username }}</span>
+      </div>
+      <ul class="dropdown-menu dropdown-menu-end" style="border-radius:12px;box-shadow:0 8px 25px rgba(0,0,0,.12);border:1px solid #e5e7eb">
+        {% if not user.is_staff %}<li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person me-2"></i>Profile</a></li>{% endif %}
+        <li><hr class="dropdown-divider"/></li>
+        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-left me-2"></i>Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- Main -->
+<div class="{% if user.is_authenticated %}main-wrap{% else %}container-fluid{% endif %}">
+  <div class="messages-wrap">
+    {% for msg in messages %}
+    <div class="alert alert-{% if msg.tags == 'error' %}danger{% else %}{{ msg.tags }}{% endif %} alert-dismissible fade show">
+      {{ msg }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% block content %}{% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function updateTime() {
+  const el = document.getElementById('live-time');
+  if (el) el.textContent = new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+updateTime(); setInterval(updateTime, 1000);
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Leave Requests{% endblock %}
+{% block page_title %}Leave Requests{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <h5 class="fw-bold mb-0">📋 Leave Requests</h5>
+  <div class="d-flex gap-2">
+    <a href="?status=Pending" class="btn btn-sm {% if status_filter == 'Pending' %}btn-warning{% else %}btn-outline-secondary{% endif %}" style="border-radius:8px">Pending</a>
+    <a href="?status=Approved" class="btn btn-sm {% if status_filter == 'Approved' %}btn-success{% else %}btn-outline-secondary{% endif %}" style="border-radius:8px">Approved</a>
+    <a href="?status=Rejected" class="btn btn-sm {% if status_filter == 'Rejected' %}btn-danger{% else %}btn-outline-secondary{% endif %}" style="border-radius:8px">Rejected</a>
+    <a href="{% url 'leave_list' %}" class="btn btn-sm btn-outline-secondary" style="border-radius:8px">All</a>
+  </div>
+</div>
+<div class="table-card card">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for leave in leaves %}
+        <tr>
+          <td>
+            <div style="font-weight:600;font-size:.88rem">{{ leave.employee.full_name }}</div>
+            <div style="font-size:.75rem;color:#6b7280">{{ leave.employee.employee_id }}</div>
+          </td>
+          <td style="font-size:.85rem">{{ leave.leave_type }}</td>
+          <td style="font-size:.85rem">{{ leave.start_date }}</td>
+          <td style="font-size:.85rem">{{ leave.end_date }}</td>
+          <td style="font-size:.85rem">{{ leave.total_days }}</td>
+          <td><span class="status-badge badge-{{ leave.status|lower }}">{{ leave.status }}</span></td>
+          <td>
+            {% if leave.status == 'Pending' %}
+            <div class="d-flex gap-1">
+              <a href="{% url 'leave_action' leave.pk 'approve' %}" class="btn btn-sm" style="background:#d1fae5;color:#065f46;border-radius:8px;font-size:.78rem">✅ Approve</a>
+              <a href="{% url 'leave_action' leave.pk 'reject' %}" class="btn btn-sm" style="background:#fee2e2;color:#991b1b;border-radius:8px;font-size:.78rem">❌ Reject</a>
+            </div>
+            {% else %}
+            <span style="font-size:.78rem;color:#6b7280">—</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" class="text-center text-muted py-5">No leave requests found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
