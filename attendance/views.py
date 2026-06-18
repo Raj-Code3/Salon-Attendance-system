@@ -418,15 +418,16 @@ def reports(request):
     daily_att = Attendance.objects.filter(date=today).select_related('employee')
 
     return render(request, 'attendance/reports.html', {
-        'monthly_data': monthly_data,
-        'daily_att':    daily_att,
-        'employees':    employees,
-        'month':        month,
-        'year':         year,
-        'emp_id':       emp_id,
-        'report_type':  report_type,
-        'today':        today,
-    })
+    	'monthly_data': monthly_data,
+    	'daily_att':    daily_att,
+    	'employees':    employees,
+    	'month':        month,
+    	'year':         year,
+    	'emp_id':       emp_id,
+    	'report_type':  report_type,
+    	'today':        today,
+    	'month_list':   list(range(1, 13)),
+   })
 
 
 # ── Holidays ──────────────────────────────────────────────────────────────────
