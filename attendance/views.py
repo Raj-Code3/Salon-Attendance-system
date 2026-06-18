@@ -556,3 +556,89 @@ def employee_status_list(request):
         'today':     today,
     })
 
+
+@login_required
+def my_calendar(request):
+    from .models import SundayException
+    try:
+        employee = request.user.employee
+    except Employee.DoesNotExist:
+        return redirect('dashboard')
+
+    today = date.today()
+    month = int(request.GET.get('month', today.month))
+    year  = int(request.GET.get('year', today.year))
+
+    import calendar
+    cal        = calendar.monthcalendar(year, month)
+    month_name = calendar.month_name[month]
+
+    # Get attendance as simple dict with string keys
+    attendance_records = Attendance.objects.filter(
+        employee=employee,
+        date__month=month,
+        date__year=year
+    )
+    att_dict = {}
+    for att in attendance_records:
+        att_dict[att.date.strftime('%Y-%m-%d')] = {
+            'status':    att.status,
+            'check_in':  att.check_in.strftime('%I:%M %p') if att.check_in else '',
+            'check_out': att.check_out.strftime('%I:%M %p') if att.check_out else '',
+            'hours':     str(att.total_hours) if att.total_hours else '',
+        }
+
+    # Holidays as string list
+    holidays = list(
+        Holiday.objects.filter(date__month=month, date__year=year)
+        .values_list('date', flat=True)
+    )
+    holiday_list = [h.strftime('%Y-%m-%d') for h in holidays]
+
+    # Working sundays as string list
+    working_sundays = list(
+        SundayException.objects.filter(date__month=month, date__year=year)
+        .values_list('date', flat=True)
+    )
+    working_sundays_list = [ws.strftime('%Y-%m-%d') for ws in working_sundays]
+
+    # Prev/next month
+    if month == 1:
+        prev_month, prev_year = 12, year - 1
+    else:
+        prev_month, prev_year = month - 1, year
+
+    if month == 12:
+        next_month, next_year = 1, year + 1
+    else:
+        next_month, next_year = month + 1, year
+
+    # Monthly stats
+    present = sum(1 for v in att_dict.values() if v['status'] in ['Present', 'Late'])
+    absent  = sum(1 for v in att_dict.values() if v['status'] == 'Absent')
+    late    = sum(1 for v in att_dict.values() if v['status'] == 'Late')
+    leave   = sum(1 for v in att_dict.values() if v['status'] == 'Leave')
+
+    import json
+    return render(request, 'attendance/my_calendar.html', {
+        'employee':           employee,
+        'calendar':           cal,
+        'month':              month,
+        'year':               year,
+        'month_name':         month_name,
+        'att_dict_json':      json.dumps(att_dict),
+        'holiday_list_json':  json.dumps(holiday_list),
+        'working_sundays_json': json.dumps(working_sundays_list),
+        'today':              today,
+        'today_str':          today.strftime('%Y-%m-%d'),
+        'prev_month':         prev_month,
+        'prev_year':          prev_year,
+        'next_month':         next_month,
+        'next_year':          next_year,
+        'stats': {
+            'present': present,
+            'absent':  absent,
+            'late':    late,
+            'leave':   leave,
+        }
+    })

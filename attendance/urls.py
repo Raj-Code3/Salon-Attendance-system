@@ -29,6 +29,7 @@ urlpatterns = [
     # Leave
     path('leave/apply/',                     views.leave_apply,  name='leave_apply'),
     path('leave/my/',                        views.my_leaves,    name='my_leaves'),
+    path('calendar/', views.my_calendar, name='my_calendar'),
     path('leave/all/',                       views.leave_list,   name='leave_list'),
     path('leave/<int:pk>/<str:action>/',     views.leave_action, name='leave_action'),
 
