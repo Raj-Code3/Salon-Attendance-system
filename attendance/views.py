@@ -435,8 +435,46 @@ def reports(request):
 @login_required
 @user_passes_test(is_admin)
 def holiday_list(request):
+    from .models import SundayException
+    import calendar
+    from datetime import date
+    
     holidays = Holiday.objects.all()
-    return render(request, 'attendance/holiday_list.html', {'holidays': holidays})
+    
+    # Get all Sundays for current year
+    today = date.today()
+    year  = today.year
+    sundays = []
+    d = date(year, 1, 1)
+    while d.year == year:
+        if d.weekday() == 6:  # Sunday
+            sundays.append(d)
+        d = d + timedelta(days=1)
+    
+    # Get exceptions (working sundays)
+    working_sundays = SundayException.objects.values_list('date', flat=True)
+    
+    return render(request, 'attendance/holiday_list.html', {
+        'holidays':        holidays,
+        'sundays':         sundays,
+        'working_sundays': list(working_sundays),
+    })
+
+
+@login_required
+@user_passes_test(is_admin)
+def toggle_sunday(request, date_str):
+    from .models import SundayException
+    from datetime import date as date_type
+    d = date_type.fromisoformat(date_str)
+    obj = SundayException.objects.filter(date=d).first()
+    if obj:
+        obj.delete()
+        messages.success(request, f'Sunday {d} is now a holiday again.')
+    else:
+        SundayException.objects.create(date=d)
+        messages.success(request, f'Sunday {d} is now a working day.')
+    return redirect('holiday_list')
 
 
 @login_required

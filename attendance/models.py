@@ -117,3 +117,15 @@ class Holiday(models.Model):
 
     class Meta:
         ordering = ['date']
+
+class SundayException(models.Model):
+    """Sundays removed from holiday list — attendance allowed on these days"""
+    date        = models.DateField(unique=True)
+    reason      = models.CharField(max_length=200, blank=True)
+    created_at  = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Working Sunday – {self.date}"
+
+    class Meta:
+        ordering = ['date']

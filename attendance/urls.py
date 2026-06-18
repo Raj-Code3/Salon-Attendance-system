@@ -20,6 +20,7 @@ urlpatterns = [
     path('employees/<int:pk>/',       views.employee_detail, name='employee_detail'),
     path('employees/<int:pk>/edit/',  views.employee_edit,   name='employee_edit'),
     path('employees/<int:pk>/delete/',views.employee_delete, name='employee_delete'),
+    path('holidays/<str:date_str>/toggle/', views.toggle_sunday, name='toggle_sunday'),
 
     # Profile
     path('profile/', views.profile_view, name='profile'),
