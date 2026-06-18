@@ -290,10 +290,10 @@ def employee_detail(request, pk):
     leaves     = LeaveRequest.objects.filter(employee=employee).order_by('-created_at')
     month_att  = Attendance.objects.filter(employee=employee, date__month=today.month)
     stats = {
-        'present': month_att.filter(status='Present').count(),
-        'late':    month_att.filter(status='Late').count(),
-        'absent':  month_att.filter(status='Absent').count(),
-        'leave':   month_att.filter(status='Leave').count(),
+    	'present': month_att.filter(status__in=['Present', 'Late']).count(),
+    	'late':    month_att.filter(status='Late').count(),
+    	'absent':  month_att.filter(status='Absent').count(),
+    	'leave':   month_att.filter(status='Leave').count(),
     }
     return render(request, 'attendance/employee_detail.html', {
         'employee': employee, 'attendance': attendance, 'leaves': leaves, 'stats': stats
