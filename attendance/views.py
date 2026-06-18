@@ -407,13 +407,13 @@ def reports(request):
     for emp in employees:
         emp_att = attendance.filter(employee=emp)
         monthly_data.append({
-            'employee': emp,
-            'present':  emp_att.filter(status='Present').count(),
-            'late':     emp_att.filter(status='Late').count(),
-            'absent':   emp_att.filter(status='Absent').count(),
-            'leave':    emp_att.filter(status='Leave').count(),
-            'half_day': emp_att.filter(status='Half Day').count(),
-        })
+    		'employee': emp,
+    		'present':  emp_att.filter(status__in=['Present', 'Late']).count(),
+    		'late':     emp_att.filter(status='Late').count(),
+    		'absent':   emp_att.filter(status='Absent').count(),
+    		'leave':    emp_att.filter(status='Leave').count(),
+    		'half_day': emp_att.filter(status='Half Day').count(),
+	})
 
     daily_att = Attendance.objects.filter(date=today).select_related('employee')
 
