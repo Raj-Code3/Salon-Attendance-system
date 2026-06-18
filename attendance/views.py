@@ -527,3 +527,21 @@ def holiday_add(request):
         form = HolidayForm()
     return render(request, 'attendance/holiday_form.html', {'form': form})
 
+
+@login_required
+@user_passes_test(is_admin)
+def employee_status_list(request):
+    status = request.GET.get('status', 'all')
+    today  = date.today()
+
+    if status == 'present':
+        attended = Attendance.objects.filter(date=today, status='Present').values_list('employee_id', flat=True)
+        employees = Employee.objects.filter(id__in=attended)
+        title = '✅ Present Today'
+    elif status == 'late':
+        attended = Attendance.objects.filter(date=today, status='Late').values_list('employee_id', flat=True)
+        employees = Employee.objects.filter(id__in=attended)
+        title = '⏰ Late Arrivals Today'
+    elif status == 'absent':
+        attended = Attendance.objects.filter(date=today).exclude(status='Absent').values_list('employee_id', flat=True)
+

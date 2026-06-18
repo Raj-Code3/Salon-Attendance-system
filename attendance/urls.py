@@ -16,6 +16,7 @@ urlpatterns = [
 
     # Employees (admin)
     path('employees/',                views.employee_list,   name='employee_list'),
+    path('employees/status/', views.employee_status_list, name='employee_status_list'),
     path('employees/add/',            views.employee_add,    name='employee_add'),
     path('employees/<int:pk>/',       views.employee_detail, name='employee_detail'),
     path('employees/<int:pk>/edit/',  views.employee_edit,   name='employee_edit'),
