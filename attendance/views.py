@@ -529,19 +529,30 @@ def holiday_add(request):
 
 
 @login_required
-@user_passes_test(is_admin)
 def employee_status_list(request):
     status = request.GET.get('status', 'all')
     today  = date.today()
 
     if status == 'present':
-        attended = Attendance.objects.filter(date=today, status='Present').values_list('employee_id', flat=True)
+        attended  = Attendance.objects.filter(date=today, status='Present').values_list('employee_id', flat=True)
         employees = Employee.objects.filter(id__in=attended)
-        title = '✅ Present Today'
+        title     = '✅ Present Today'
     elif status == 'late':
-        attended = Attendance.objects.filter(date=today, status='Late').values_list('employee_id', flat=True)
+        attended  = Attendance.objects.filter(date=today, status='Late').values_list('employee_id', flat=True)
         employees = Employee.objects.filter(id__in=attended)
-        title = '⏰ Late Arrivals Today'
+        title     = '⏰ Late Arrivals Today'
     elif status == 'absent':
-        attended = Attendance.objects.filter(date=today).exclude(status='Absent').values_list('employee_id', flat=True)
+        attended  = Attendance.objects.filter(date=today).exclude(status='Absent').values_list('employee_id', flat=True)
+        employees = Employee.objects.filter(status='Active').exclude(id__in=attended)
+        title     = '❌ Absent Today'
+    else:
+        employees = Employee.objects.filter(status='Active')
+        title     = '👥 All Employees'
+
+    return render(request, 'attendance/employee_status_list.html', {
+        'employees': employees,
+        'title':     title,
+        'status':    status,
+        'today':     today,
+    })
 
