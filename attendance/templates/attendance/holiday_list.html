@@ -10,7 +10,6 @@
 </div>
 
 <div class="row g-3">
-  <!-- Holidays list -->
   <div class="col-md-5">
     <div class="table-card card">
       <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6">
@@ -40,95 +39,22 @@
     </div>
   </div>
 
-  <!-- Sundays list -->
   <div class="col-md-7">
     <div class="table-card card">
       <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6">
-        <span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">☀️ Sundays {{ sundays.0.year }} – Click to toggle working day</span>
+        <span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">☀️ Sundays – Click to toggle working day</span>
       </div>
       <div style="padding:1rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;max-height:500px;overflow-y:auto">
         {% for sunday in sundays %}
         <a href="{% url 'toggle_sunday' sunday|date:'Y-m-d' %}"
            style="display:block;text-align:center;padding:.6rem .5rem;border-radius:10px;text-decoration:none;font-size:.82rem;font-weight:600;transition:all .2s;
-           {% if sunday in working_sundays %}
+           {% if sunday|date:'Y-m-d' in working_sundays_str %}
              background:#d1fae5;color:#065f46;border:1px solid #6ee7b7;
            {% else %}
              background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;
            {% endif %}">
           {{ sunday|date:"d M" }}
-          {% if sunday in working_sundays %}
-            <div style="font-size:.7rem;margin-top:.2rem">✅ Working</div>
-          {% else %}
-            <div style="font-size:.7rem;margin-top:.2rem">🔴 Holiday</div>
-          {% endif %}
-        </a>
-        {% endfor %}
-      </div>
-      <div style="padding:.75rem 1rem;border-top:1px solid #f3f4f6;font-size:.78rem;color:#6b7280">
-        🔴 Red = Sunday holiday &nbsp;|&nbsp; ✅ Green = Working Sunday (click to toggle)
-      </div>
-    </div>
-  </div>
-</div>
-{% endblock %}{% extends 'base.html' %}
-{% block title %}Holidays{% endblock %}
-{% block page_title %}Holidays & Calendar{% endblock %}
-{% block content %}
-<div class="d-flex align-items-center justify-content-between mb-4">
-  <h5 class="fw-bold mb-0">🎉 Holidays & Sunday Management</h5>
-  <a href="{% url 'holiday_add' %}" class="btn" style="background:#1F3A5F;color:#fff;border-radius:10px;font-weight:600">
-    <i class="bi bi-plus me-1"></i>Add Holiday
-  </a>
-</div>
-
-<div class="row g-3">
-  <!-- Holidays list -->
-  <div class="col-md-5">
-    <div class="table-card card">
-      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6">
-        <span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">📅 Public Holidays</span>
-      </div>
-      <div class="card-body p-0">
-        <table class="table table-hover mb-0">
-          <thead><tr><th>#</th><th>Holiday</th><th>Date</th><th>Action</th></tr></thead>
-          <tbody>
-            {% for holiday in holidays %}
-            <tr>
-              <td style="color:#6b7280;font-size:.85rem">{{ forloop.counter }}</td>
-              <td style="font-weight:600;font-size:.88rem">{{ holiday.holiday_name }}</td>
-              <td style="font-size:.85rem">{{ holiday.date }}</td>
-              <td>
-                <a href="{% url 'holiday_delete' holiday.pk %}" class="btn btn-sm" style="background:#fee2e2;color:#991b1b;border-radius:8px">
-                  <i class="bi bi-trash"></i>
-                </a>
-              </td>
-            </tr>
-            {% empty %}
-            <tr><td colspan="4" class="text-center text-muted py-4">No holidays added yet.</td></tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sundays list -->
-  <div class="col-md-7">
-    <div class="table-card card">
-      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6">
-        <span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">☀️ Sundays {{ sundays.0.year }} – Click to toggle working day</span>
-      </div>
-      <div style="padding:1rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;max-height:500px;overflow-y:auto">
-        {% for sunday in sundays %}
-        <a href="{% url 'toggle_sunday' sunday|date:'Y-m-d' %}"
-           style="display:block;text-align:center;padding:.6rem .5rem;border-radius:10px;text-decoration:none;font-size:.82rem;font-weight:600;transition:all .2s;
-           {% if sunday in working_sundays %}
-             background:#d1fae5;color:#065f46;border:1px solid #6ee7b7;
-           {% else %}
-             background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;
-           {% endif %}">
-          {{ sunday|date:"d M" }}
-          {% if sunday in working_sundays %}
+          {% if sunday|date:"Y-m-d" in working_sundays_str %}
             <div style="font-size:.7rem;margin-top:.2rem">✅ Working</div>
           {% else %}
             <div style="font-size:.7rem;margin-top:.2rem">🔴 Holiday</div>

@@ -436,30 +436,40 @@ def reports(request):
 @user_passes_test(is_admin)
 def holiday_list(request):
     from .models import SundayException
-    import calendar
-    from datetime import date
     
     holidays = Holiday.objects.all()
     
-    # Get all Sundays for current year
     today = date.today()
     year  = today.year
     sundays = []
     d = date(year, 1, 1)
     while d.year == year:
-        if d.weekday() == 6:  # Sunday
+        if d.weekday() == 6:
             sundays.append(d)
         d = d + timedelta(days=1)
     
-    # Get exceptions (working sundays)
-    working_sundays = SundayException.objects.values_list('date', flat=True)
+    # Store as strings for reliable template comparison
+    working_sundays = list(
+        SundayException.objects.values_list('date', flat=True)
+    )
+    working_sundays_str = [str(d) for d in working_sundays]
     
     return render(request, 'attendance/holiday_list.html', {
-        'holidays':        holidays,
-        'sundays':         sundays,
-        'working_sundays': list(working_sundays),
+        'holidays':            holidays,
+        'sundays':             sundays,
+        'working_sundays_str': working_sundays_str,
     })
 
+
+@login_required
+@user_passes_test(is_admin)
+def holiday_delete(request, pk):
+    holiday = get_object_or_404(Holiday, pk=pk)
+    if request.method == 'POST':
+        holiday.delete()
+        messages.success(request, 'Holiday deleted.')
+        return redirect('holiday_list')
+    return render(request, 'attendance/confirm_delete.html', {'object': holiday, 'type': 'Holiday'})
 
 @login_required
 @user_passes_test(is_admin)
@@ -488,15 +498,32 @@ def holiday_add(request):
             return redirect('holiday_list')
     else:
         form = HolidayForm()
-    return render(request, 'attendance/holiday_form.html', {'form': form})
+    return render(request, 'attendance/holiday_form.html', {'form': form})@login_required
+@user_passes_test(is_admin)
+def toggle_sunday(request, date_str):
+    from .models import SundayException
+    from datetime import date as date_type
+    d = date_type.fromisoformat(date_str)
+    obj = SundayException.objects.filter(date=d).first()
+    if obj:
+        obj.delete()
+        messages.success(request, f'Sunday {d} is now a holiday again.')
+    else:
+        SundayException.objects.create(date=d)
+        messages.success(request, f'Sunday {d} is now a working day.')
+    return redirect('holiday_list')
 
 
 @login_required
 @user_passes_test(is_admin)
-def holiday_delete(request, pk):
-    holiday = get_object_or_404(Holiday, pk=pk)
+def holiday_add(request):
     if request.method == 'POST':
-        holiday.delete()
-        messages.success(request, 'Holiday deleted.')
-        return redirect('holiday_list')
-    return render(request, 'attendance/confirm_delete.html', {'object': holiday, 'type': 'Holiday'})
+        form = HolidayForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Holiday added.')
+            return redirect('holiday_list')
+    else:
+        form = HolidayForm()
+    return render(request, 'attendance/holiday_form.html', {'form': form})
+
