@@ -4,7 +4,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h5 class="fw-bold mb-0">📋 My Leave Requests</h5>
-  <a href="{% url 'leave_apply' %}" class="btn" style="background:#1F3A5F;color:#fff;border-radius:10px;font-weight:600"><i class="bi bi-plus me-1"></i>Apply Leave</a>
+  <a href="{% url 'leave_apply' %}" class="btn" style="background:#5C1F2E;color:#fff;border-radius:10px;font-weight:600"><i class="bi bi-plus me-1"></i>Apply Leave</a>
 </div>
 <div class="table-card card">
   <div class="card-body p-0">
@@ -17,9 +17,9 @@
           <td style="font-size:.85rem">{{ leave.start_date }}</td>
           <td style="font-size:.85rem">{{ leave.end_date }}</td>
           <td style="font-size:.85rem">{{ leave.total_days }}</td>
-          <td style="font-size:.82rem;color:#6b7280;max-width:150px">{{ leave.reason|truncatewords:8 }}</td>
+          <td style="font-size:.82rem;color:#8A7A72;max-width:150px">{{ leave.reason|truncatewords:8 }}</td>
           <td><span class="status-badge badge-{{ leave.status|lower }}">{{ leave.status }}</span></td>
-          <td style="font-size:.78rem;color:#6b7280">{{ leave.created_at|date:"d M Y" }}</td>
+          <td style="font-size:.78rem;color:#8A7A72">{{ leave.created_at|date:"d M Y" }}</td>
         </tr>
         {% empty %}
         <tr><td colspan="7" class="text-center text-muted py-5">No leave requests yet.</td></tr>

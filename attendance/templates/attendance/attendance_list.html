@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Attendance – SalonTrack Pro{% endblock %}
+{% block title %}Attendance – Raj's Salon{% endblock %}
 {% block page_title %}Attendance Records{% endblock %}
 {% block content %}
 <div class="d-flex align-items-center justify-content-between mb-4">
@@ -34,7 +34,7 @@
         {{ form.status }}
       </div>
       <div class="col-md-1 d-flex align-items-end">
-        <button type="submit" class="btn w-100" style="background:#1F3A5F;color:#fff;border-radius:10px">Go</button>
+        <button type="submit" class="btn w-100" style="background:#5C1F2E;color:#fff;border-radius:10px">Go</button>
       </div>
     </div>
   </form>
@@ -49,7 +49,7 @@
         <tr>
           <td>
             <div style="font-weight:600;font-size:.88rem">{{ att.employee.full_name }}</div>
-            <div style="font-size:.75rem;color:#6b7280">{{ att.employee.employee_id }}</div>
+            <div style="font-size:.75rem;color:#8A7A72">{{ att.employee.employee_id }}</div>
           </td>
           <td style="font-size:.88rem">{{ att.date }}</td>
           <td>{{ att.check_in|time:"h:i A"|default:"—" }}</td>
@@ -64,7 +64,7 @@
     </table>
   </div>
   {% if records.has_other_pages %}
-  <div class="card-body" style="border-top:1px solid #f3f4f6">
+  <div class="card-body" style="border-top:1px solid #F1E7DA">
     <nav><ul class="pagination pagination-sm mb-0 justify-content-center">
       {% if records.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ records.previous_page_number }}">‹</a></li>{% endif %}
       {% for n in records.paginator.page_range %}<li class="page-item {% if n == records.number %}active{% endif %}"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>{% endfor %}

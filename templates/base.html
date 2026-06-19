@@ -3,41 +3,56 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>{% block title %}SalonTrack Pro{% endblock %}</title>
+<title>{% block title %}Raj's Salon{% endblock %}</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235C1F2E'%3E%3Cpath d='M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64zM6 8c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm0 12c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm6-7.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5.5.22.5.5-.22.5-.5.5zM19 3l-6 6 2 2 7-7V3z'/%3E%3C/svg%3E"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 :root {
-  --primary:   #1F3A5F;
-  --primary-l: #264a78;
-  --secondary: #4A90E2;
-  --success:   #28A745;
-  --danger:    #DC3545;
-  --warning:   #FFC107;
-  --bg:        #F8F9FA;
-  --text:      #333333;
-  --sidebar-w: 260px;
-  --topbar-h:  60px;
+  --primary:      #5C1F2E;   /* deep wine - luxury, sophistication */
+  --primary-l:    #7A2C40;   /* wine hover */
+  --primary-dark: #3D141E;
+  --secondary:    #B8862C;   /* antique gold - premium, warmth */
+  --secondary-l:  #D9A441;
+  --success:      #3F7D52;   /* sage green - calm, wellness */
+  --danger:       #A23B3B;   /* muted terracotta - alert, softer than pure red */
+  --warning:      #D9A441;
+  --bg:           #FBF5EC;   /* warm ivory - easy on the eyes */
+  --surface:      #FFFFFF;
+  --text:         #2E2424;   /* warm charcoal, not harsh black */
+  --muted:        #8A7A72;
+  --sidebar-w:    260px;
+  --topbar-h:     64px;
+  --font-display: 'Playfair Display', serif;
+  --font-body:    'Poppins', sans-serif;
 }
 * { box-sizing:border-box; }
-body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); margin:0; }
+body { font-family:var(--font-body); background:var(--bg); color:var(--text); margin:0; }
+h1,h2,h3,h4,h5,h6 { font-family:var(--font-body); }
 
 /* Sidebar */
 .sidebar {
   width:var(--sidebar-w); height:100vh; position:fixed; top:0; left:0;
-  background:var(--primary); overflow-y:auto; z-index:200;
+  background:linear-gradient(180deg,var(--primary) 0%,var(--primary-dark) 100%);
+  overflow-y:auto; z-index:200;
   display:flex; flex-direction:column;
-  box-shadow:4px 0 15px rgba(0,0,0,.15);
+  box-shadow:4px 0 18px rgba(92,31,46,.25);
 }
 .sidebar-brand {
-  padding:1.25rem 1.5rem; border-bottom:1px solid rgba(255,255,255,.1);
-  display:flex; align-items:center; gap:.75rem;
+  padding:1.4rem 1.5rem; border-bottom:1px solid rgba(255,255,255,.12);
+  display:flex; align-items:center; gap:.85rem;
+  background:rgba(0,0,0,.1);
 }
-.sidebar-brand .logo { font-size:1.8rem; }
+.sidebar-brand .logo {
+  font-size:1.5rem; width:44px; height:44px; flex-shrink:0;
+  background:linear-gradient(135deg,var(--secondary-l),var(--secondary));
+  border-radius:12px; display:flex; align-items:center; justify-content:center;
+  color:#fff; box-shadow:0 4px 10px rgba(0,0,0,.25);
+}
 .sidebar-brand .brand-text { color:#fff; }
-.sidebar-brand .brand-text h6 { font-weight:700; font-size:.95rem; margin:0; }
-.sidebar-brand .brand-text small { color:rgba(255,255,255,.6); font-size:.7rem; }
+.sidebar-brand .brand-text h6 { font-family:var(--font-display); font-weight:700; font-size:1.15rem; margin:0; letter-spacing:.02em; }
+.sidebar-brand .brand-text small { color:rgba(255,255,255,.65); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; }
 
 .sidebar-section { padding:.75rem 1rem .35rem; color:rgba(255,255,255,.4); font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; }
 
@@ -49,7 +64,7 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
   text-decoration:none; font-size:.875rem; font-weight:500; transition:all .2s;
 }
 .sidebar-nav a:hover  { background:rgba(255,255,255,.1); color:#fff; }
-.sidebar-nav a.active { background:var(--secondary); color:#fff; box-shadow:0 3px 10px rgba(74,144,226,.4); }
+.sidebar-nav a.active { background:var(--secondary); color:#fff; box-shadow:0 3px 10px rgba(184,134,44,.45); }
 .sidebar-nav a i      { font-size:1rem; width:20px; text-align:center; }
 
 .sidebar-footer { margin-top:auto; padding:1rem; border-top:1px solid rgba(255,255,255,.1); }
@@ -59,18 +74,19 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
 /* Topbar */
 .topbar {
   height:var(--topbar-h); position:fixed; top:0; left:var(--sidebar-w); right:0;
-  background:#fff; border-bottom:1px solid #e5e7eb; z-index:100;
+  background:var(--surface); border-bottom:1px solid #E8DCC8; z-index:100;
   display:flex; align-items:center; justify-content:space-between;
-  padding:0 1.5rem; box-shadow:0 2px 8px rgba(0,0,0,.06);
+  padding:0 1.5rem; box-shadow:0 2px 10px rgba(92,31,46,.06);
 }
 .topbar-left { display:flex; align-items:center; gap:1rem; }
-.topbar-title { font-weight:600; font-size:1rem; color:var(--text); }
+.topbar-title { font-family:var(--font-display); font-weight:700; font-size:1.15rem; color:var(--primary); }
 .topbar-right { display:flex; align-items:center; gap:1rem; }
 .topbar-user { display:flex; align-items:center; gap:.6rem; cursor:pointer; }
 .topbar-avatar {
-  width:36px; height:36px; border-radius:50%; background:var(--primary);
+  width:38px; height:38px; border-radius:50%;
+  background:linear-gradient(135deg,var(--secondary-l),var(--secondary));
   color:#fff; display:flex; align-items:center; justify-content:center;
-  font-weight:700; font-size:.85rem;
+  font-weight:700; font-size:.88rem; box-shadow:0 3px 8px rgba(184,134,44,.35);
 }
 
 /* Main content */
@@ -82,33 +98,33 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
 .stat-card .card-body { padding:1.4rem; }
 .stat-icon { width:52px; height:52px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; }
 .stat-val { font-size:2rem; font-weight:700; line-height:1; margin:.35rem 0 .2rem; }
-.stat-lbl { font-size:.8rem; color:#6b7280; font-weight:500; }
+.stat-lbl { font-size:.8rem; color:#8A7A72; font-weight:500; }
 
 /* Tables */
 .table-card { border:none; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.07); overflow:hidden; }
 .table-card .table { margin:0; }
-.table-card .table th { background:#f9fafb; font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#6b7280; border-bottom:1px solid #e5e7eb; padding:.85rem 1rem; }
-.table-card .table td { padding:.85rem 1rem; vertical-align:middle; font-size:.88rem; border-bottom:1px solid #f3f4f6; }
+.table-card .table th { background:#FAF3E7; font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#8A7A72; border-bottom:1px solid #E8DCC8; padding:.85rem 1rem; }
+.table-card .table td { padding:.85rem 1rem; vertical-align:middle; font-size:.88rem; border-bottom:1px solid #F1E7DA; }
 .table-card .table tr:last-child td { border-bottom:none; }
-.table-card .table tr:hover td { background:#fafafa; }
+.table-card .table tr:hover td { background:#FBF6EE; }
 
 /* Badges */
-.badge-present  { background:#d1fae5; color:#065f46; }
-.badge-absent   { background:#fee2e2; color:#991b1b; }
-.badge-late     { background:#fef3c7; color:#92400e; }
-.badge-halfday  { background:#e0e7ff; color:#3730a3; }
-.badge-leave    { background:#f3e8ff; color:#6b21a8; }
-.badge-pending  { background:#fef3c7; color:#92400e; }
-.badge-approved { background:#d1fae5; color:#065f46; }
-.badge-rejected { background:#fee2e2; color:#991b1b; }
-.badge-active   { background:#d1fae5; color:#065f46; }
-.badge-inactive { background:#fee2e2; color:#991b1b; }
+.badge-present  { background:#DCEEDB; color:#2F6B40; }
+.badge-absent   { background:#F6DEDD; color:#8B2E2E; }
+.badge-late     { background:#F7E4C2; color:#8C5A12; }
+.badge-halfday  { background:#E8DCEA; color:#5B3566; }
+.badge-leave    { background:#EFD9E6; color:#7A3458; }
+.badge-pending  { background:#F7E4C2; color:#8C5A12; }
+.badge-approved { background:#DCEEDB; color:#2F6B40; }
+.badge-rejected { background:#F6DEDD; color:#8B2E2E; }
+.badge-active   { background:#DCEEDB; color:#2F6B40; }
+.badge-inactive { background:#F6DEDD; color:#8B2E2E; }
 
 .status-badge { padding:.3rem .8rem; border-radius:20px; font-size:.75rem; font-weight:600; display:inline-block; }
 
 /* Forms */
 .form-card { border:none; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.07); padding:1.75rem; }
-.section-header { font-size:.75rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:.08em; margin-bottom:1rem; padding-bottom:.5rem; border-bottom:1px solid #e5e7eb; }
+.section-header { font-size:.75rem; font-weight:700; color:#8A7A72; text-transform:uppercase; letter-spacing:.08em; margin-bottom:1rem; padding-bottom:.5rem; border-bottom:1px solid #E8DCC8; }
 
 /* Alerts */
 .messages-wrap { margin-bottom:1.25rem; }
@@ -121,6 +137,21 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
   .main-wrap { margin-left:0; }
   .topbar { left:0; }
 }
+
+/* Brand-wide overrides so Bootstrap defaults match the salon palette */
+a { color:var(--secondary); }
+a:hover { color:var(--primary); }
+.btn-primary { background:var(--primary); border-color:var(--primary); }
+.btn-primary:hover { background:var(--primary-l); border-color:var(--primary-l); }
+.btn-outline-primary { color:var(--primary); border-color:var(--primary); }
+.btn-outline-primary:hover { background:var(--primary); border-color:var(--primary); }
+.form-control:focus, .form-select:focus { border-color:var(--secondary); box-shadow:0 0 0 3px rgba(184,134,44,.15); }
+.nav-tabs .nav-link.active { color:var(--primary); border-color:var(--secondary) var(--secondary) #fff; }
+.page-link { color:var(--primary); }
+.page-item.active .page-link { background:var(--primary); border-color:var(--primary); }
+::-webkit-scrollbar { width:8px; height:8px; }
+::-webkit-scrollbar-thumb { background:#D9C8B5; border-radius:8px; }
+::-webkit-scrollbar-track { background:transparent; }
 </style>
 {% block extra_css %}{% endblock %}
 </head>
@@ -129,10 +160,10 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
   <div class="sidebar-brand">
-    <span class="logo">✂️</span>
+    <span class="logo"><i class="bi bi-scissors"></i></span>
     <div class="brand-text">
-      <h6>SalonTrack Pro</h6>
-      <small>Attendance Management</small>
+      <h6>Raj's Salon</h6>
+      <small>Staff Attendance Suite</small>
     </div>
   </div>
 
@@ -183,7 +214,7 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
     <span class="topbar-title">{% block page_title %}Dashboard{% endblock %}</span>
   </div>
   <div class="topbar-right">
-    <span style="font-size:.8rem;color:#6b7280">
+    <span style="font-size:.8rem;color:#8A7A72">
       <i class="bi bi-clock me-1"></i>
       <span id="live-time"></span>
     </span>
@@ -192,7 +223,7 @@ body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); 
         <div class="topbar-avatar">{{ user.username|first|upper }}</div>
         <span style="font-size:.85rem;font-weight:600">{{ user.get_full_name|default:user.username }}</span>
       </div>
-      <ul class="dropdown-menu dropdown-menu-end" style="border-radius:12px;box-shadow:0 8px 25px rgba(0,0,0,.12);border:1px solid #e5e7eb">
+      <ul class="dropdown-menu dropdown-menu-end" style="border-radius:12px;box-shadow:0 8px 25px rgba(0,0,0,.12);border:1px solid #E8DCC8">
         {% if not user.is_staff %}<li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person me-2"></i>Profile</a></li>{% endif %}
         <li><hr class="dropdown-divider"/></li>
         <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-left me-2"></i>Logout</a></li>

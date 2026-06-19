@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Dashboard – SalonTrack Pro{% endblock %}
+{% block title %}Dashboard – Raj's Salon{% endblock %}
 {% block page_title %}Dashboard{% endblock %}
 {% block extra_css %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -14,10 +14,10 @@
       <div class="stat-card card">
         <div class="card-body">
           <div class="d-flex align-items-center justify-content-between mb-2">
-            <div class="stat-icon" style="background:#dbeafe;color:#1d4ed8"><i class="bi bi-people-fill"></i></div>
-            <span class="badge" style="background:#dbeafe;color:#1d4ed8;border-radius:20px;font-size:.72rem">Total</span>
+            <div class="stat-icon" style="background:#F6E8C8;color:#9C6B16"><i class="bi bi-people-fill"></i></div>
+            <span class="badge" style="background:#F6E8C8;color:#9C6B16;border-radius:20px;font-size:.72rem">Total</span>
           </div>
-          <div class="stat-val" style="color:#1d4ed8">{{ total_employees }}</div>
+          <div class="stat-val" style="color:#9C6B16">{{ total_employees }}</div>
           <div class="stat-lbl">Total Employees</div>
         </div>
       </div>
@@ -28,10 +28,10 @@
       <div class="stat-card card">
         <div class="card-body">
           <div class="d-flex align-items-center justify-content-between mb-2">
-            <div class="stat-icon" style="background:#d1fae5;color:#065f46"><i class="bi bi-person-check-fill"></i></div>
-            <span class="badge" style="background:#d1fae5;color:#065f46;border-radius:20px;font-size:.72rem">Today</span>
+            <div class="stat-icon" style="background:#DCEEDB;color:#2F6B40"><i class="bi bi-person-check-fill"></i></div>
+            <span class="badge" style="background:#DCEEDB;color:#2F6B40;border-radius:20px;font-size:.72rem">Today</span>
           </div>
-          <div class="stat-val" style="color:#065f46">{{ present_today }}</div>
+          <div class="stat-val" style="color:#2F6B40">{{ present_today }}</div>
           <div class="stat-lbl">Present Today</div>
         </div>
       </div>
@@ -42,10 +42,10 @@
       <div class="stat-card card">
         <div class="card-body">
           <div class="d-flex align-items-center justify-content-between mb-2">
-            <div class="stat-icon" style="background:#fee2e2;color:#991b1b"><i class="bi bi-person-x-fill"></i></div>
-            <span class="badge" style="background:#fee2e2;color:#991b1b;border-radius:20px;font-size:.72rem">Today</span>
+            <div class="stat-icon" style="background:#F6DEDD;color:#8B2E2E"><i class="bi bi-person-x-fill"></i></div>
+            <span class="badge" style="background:#F6DEDD;color:#8B2E2E;border-radius:20px;font-size:.72rem">Today</span>
           </div>
-          <div class="stat-val" style="color:#991b1b">{{ absent_today }}</div>
+          <div class="stat-val" style="color:#8B2E2E">{{ absent_today }}</div>
           <div class="stat-lbl">Absent Today</div>
         </div>
       </div>
@@ -56,10 +56,10 @@
       <div class="stat-card card">
         <div class="card-body">
           <div class="d-flex align-items-center justify-content-between mb-2">
-            <div class="stat-icon" style="background:#fef3c7;color:#92400e"><i class="bi bi-clock-history"></i></div>
-            <span class="badge" style="background:#fef3c7;color:#92400e;border-radius:20px;font-size:.72rem">Today</span>
+            <div class="stat-icon" style="background:#F7E4C2;color:#8C5A12"><i class="bi bi-clock-history"></i></div>
+            <span class="badge" style="background:#F7E4C2;color:#8C5A12;border-radius:20px;font-size:.72rem">Today</span>
           </div>
-          <div class="stat-val" style="color:#92400e">{{ late_today }}</div>
+          <div class="stat-val" style="color:#8C5A12">{{ late_today }}</div>
           <div class="stat-lbl">Late Arrivals</div>
         </div>
       </div>
@@ -70,35 +70,35 @@
 <div class="row g-3 mb-4">
   <div class="col-md-8">
     <div class="table-card card p-3">
-      <div style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem">📊 Weekly Attendance Trend</div>
+      <div style="font-size:.8rem;font-weight:700;color:#8A7A72;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem"><i class="bi bi-bar-chart-fill" style="color:#B8862C"></i> Weekly Attendance Trend</div>
       <canvas id="attendanceChart" height="100"></canvas>
     </div>
   </div>
   <div class="col-md-4">
     <div class="table-card card p-3 h-100">
-      <div style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem">📈 Today's Overview</div>
+      <div style="font-size:.8rem;font-weight:700;color:#8A7A72;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem"><i class="bi bi-graph-up-arrow" style="color:#B8862C"></i> Today&#39;s Overview</div>
       <div style="display:flex;flex-direction:column;gap:.85rem">
         <div>
           <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.35rem">
             <span>Attendance Rate</span>
-            <span style="font-weight:700;color:#1F3A5F">{{ attendance_pct }}%</span>
+            <span style="font-weight:700;color:#5C1F2E">{{ attendance_pct }}%</span>
           </div>
-          <div style="background:#e5e7eb;border-radius:10px;height:8px;overflow:hidden">
-            <div style="width:{{ attendance_pct }}%;height:100%;background:linear-gradient(90deg,#4A90E2,#28A745);border-radius:10px;transition:width .5s"></div>
+          <div style="background:#E8DCC8;border-radius:10px;height:8px;overflow:hidden">
+            <div style="width:{{ attendance_pct }}%;height:100%;background:linear-gradient(90deg,#B8862C,#3F7D52);border-radius:10px;transition:width .5s"></div>
           </div>
         </div>
-        <div style="background:#f9fafb;border-radius:10px;padding:1rem">
-          <div style="font-size:.78rem;color:#6b7280;margin-bottom:.75rem">LEAVE REQUESTS</div>
-          <div style="font-size:1.8rem;font-weight:700;color:#DC3545">{{ pending_leaves }}</div>
-          <div style="font-size:.78rem;color:#6b7280">Pending approval</div>
-          <a href="{% url 'leave_list' %}?status=Pending" class="btn btn-sm mt-2" style="background:#1F3A5F;color:#fff;border-radius:8px;font-size:.78rem">Review Now →</a>
+        <div style="background:#FAF3E7;border-radius:10px;padding:1rem">
+          <div style="font-size:.78rem;color:#8A7A72;margin-bottom:.75rem">LEAVE REQUESTS</div>
+          <div style="font-size:1.8rem;font-weight:700;color:#A23B3B">{{ pending_leaves }}</div>
+          <div style="font-size:.78rem;color:#8A7A72">Pending approval</div>
+          <a href="{% url 'leave_list' %}?status=Pending" class="btn btn-sm mt-2" style="background:#5C1F2E;color:#fff;border-radius:8px;font-size:.78rem">Review Now →</a>
         </div>
         {% for holiday in upcoming_holidays %}
-        <div style="display:flex;align-items:center;gap:.75rem;padding:.6rem;background:#fff7ed;border-radius:10px">
-          <span style="font-size:1.2rem">🎉</span>
+        <div style="display:flex;align-items:center;gap:.75rem;padding:.6rem;background:#F8ECD9;border-radius:10px">
+          <span style="font-size:1.2rem;color:#B8862C"><i class="bi bi-stars"></i></span>
           <div>
             <div style="font-size:.82rem;font-weight:600">{{ holiday.holiday_name }}</div>
-            <div style="font-size:.72rem;color:#92400e">{{ holiday.date }}</div>
+            <div style="font-size:.72rem;color:#8C5A12">{{ holiday.date }}</div>
           </div>
         </div>
         {% endfor %}
@@ -109,9 +109,9 @@
 
 <div class="table-card card">
   <div class="card-body p-0">
-    <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between">
-      <span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em">🕐 Today's Attendance</span>
-      <a href="{% url 'attendance_list' %}" style="font-size:.8rem;color:#4A90E2;text-decoration:none;font-weight:600">View All →</a>
+    <div style="padding:1rem 1.25rem;border-bottom:1px solid #F1E7DA;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:.8rem;font-weight:700;color:#8A7A72;text-transform:uppercase;letter-spacing:.05em"><i class="bi bi-clock-history" style="color:#B8862C"></i> Today&#39;s Attendance</span>
+      <a href="{% url 'attendance_list' %}" style="font-size:.8rem;color:#B8862C;text-decoration:none;font-weight:600">View All →</a>
     </div>
     <table class="table table-hover mb-0">
       <thead><tr><th>Employee</th><th>Check In</th><th>Check Out</th><th>Hours</th><th>Status</th></tr></thead>
@@ -120,7 +120,7 @@
         <tr>
           <td>
             <div style="font-weight:600;font-size:.88rem">{{ att.employee.full_name }}</div>
-            <div style="font-size:.75rem;color:#6b7280">{{ att.employee.employee_id }}</div>
+            <div style="font-size:.75rem;color:#8A7A72">{{ att.employee.employee_id }}</div>
           </td>
           <td>{{ att.check_in|time:"h:i A"|default:"—" }}</td>
           <td>{{ att.check_out|time:"h:i A"|default:"—" }}</td>
@@ -139,31 +139,31 @@
 <!-- EMPLOYEE DASHBOARD -->
 <div class="row g-3 mb-4">
   <div class="col-12">
-    <div class="card" style="border:none;border-radius:16px;background:linear-gradient(135deg,#1F3A5F,#4A90E2);color:#fff;padding:1.5rem 2rem">
+    <div class="card" style="border:none;border-radius:16px;background:linear-gradient(135deg,#5C1F2E,#B8862C);color:#fff;padding:1.5rem 2rem">
       <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div>
-          <h5 style="font-weight:700;margin:0">👋 Hello, {{ employee.full_name }}!</h5>
+          <h5 style="font-weight:700;margin:0"><i class="bi bi-sun-fill"></i> Hello, {{ employee.full_name }}!</h5>
           <p style="color:rgba(255,255,255,.75);margin:.25rem 0 1rem;font-size:.9rem">{{ employee.employee_id }} · {{ employee.get_gender_display }}</p>
           {% if today_attendance %}
             {% if today_attendance.check_in %}
               <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:.3rem .9rem;font-size:.82rem">
-                ✅ Checked in at {{ today_attendance.check_in|time:"h:i A" }}
+                <i class="bi bi-check-circle-fill"></i> Checked in at {{ today_attendance.check_in|time:"h:i A" }}
               </span>
             {% endif %}
             {% if today_attendance.check_out %}
               <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:.3rem .9rem;font-size:.82rem;margin-left:.5rem">
-                👋 Checked out at {{ today_attendance.check_out|time:"h:i A" }}
+                <i class="bi bi-box-arrow-right"></i> Checked out at {{ today_attendance.check_out|time:"h:i A" }}
               </span>
             {% endif %}
           {% endif %}
         </div>
         <div class="d-flex gap-2 flex-wrap">
           {% if not today_attendance or not today_attendance.check_in %}
-            <a href="{% url 'check_in' %}" class="btn" style="background:#28A745;color:#fff;border-radius:10px;font-weight:600;padding:.6rem 1.25rem">
+            <a href="{% url 'check_in' %}" class="btn" style="background:#3F7D52;color:#fff;border-radius:10px;font-weight:600;padding:.6rem 1.25rem">
               <i class="bi bi-box-arrow-in-right me-2"></i>Check In
             </a>
           {% elif not today_attendance.check_out %}
-            <a href="{% url 'check_out' %}" class="btn" style="background:#DC3545;color:#fff;border-radius:10px;font-weight:600;padding:.6rem 1.25rem">
+            <a href="{% url 'check_out' %}" class="btn" style="background:#A23B3B;color:#fff;border-radius:10px;font-weight:600;padding:.6rem 1.25rem">
               <i class="bi bi-box-arrow-left me-2"></i>Check Out
             </a>
           {% else %}
@@ -183,19 +183,19 @@
 <div class="row g-3 mb-4">
   <div class="col-4">
     <div class="stat-card card"><div class="card-body text-center">
-      <div style="font-size:2rem;font-weight:700;color:#28A745">{{ month_present }}</div>
+      <div style="font-size:2rem;font-weight:700;color:#3F7D52">{{ month_present }}</div>
       <div class="stat-lbl">Present (This Month)</div>
     </div></div>
   </div>
   <div class="col-4">
     <div class="stat-card card"><div class="card-body text-center">
-      <div style="font-size:2rem;font-weight:700;color:#DC3545">{{ month_absent }}</div>
+      <div style="font-size:2rem;font-weight:700;color:#A23B3B">{{ month_absent }}</div>
       <div class="stat-lbl">Absent</div>
     </div></div>
   </div>
   <div class="col-4">
     <div class="stat-card card"><div class="card-body text-center">
-      <div style="font-size:2rem;font-weight:700;color:#FFC107">{{ month_late }}</div>
+      <div style="font-size:2rem;font-weight:700;color:#D9A441">{{ month_late }}</div>
       <div class="stat-lbl">Late</div>
     </div></div>
   </div>
@@ -205,8 +205,8 @@
   <div class="col-md-7">
     <div class="table-card card">
       <div class="card-body p-0">
-        <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6">
-          <span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">Recent Attendance</span>
+        <div style="padding:1rem 1.25rem;border-bottom:1px solid #F1E7DA">
+          <span style="font-size:.8rem;font-weight:700;color:#8A7A72;text-transform:uppercase">Recent Attendance</span>
         </div>
         <table class="table table-hover mb-0">
           <thead><tr><th>Date</th><th>In</th><th>Out</th><th>Hours</th><th>Status</th></tr></thead>
@@ -230,16 +230,16 @@
   <div class="col-md-5">
     <div class="table-card card">
       <div class="card-body p-0">
-        <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;display:flex;justify-content:space-between;align-items:center">
-          <span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">Leave Requests</span>
-          <a href="{% url 'leave_apply' %}" style="font-size:.78rem;color:#4A90E2;text-decoration:none;font-weight:600">+ Apply</a>
+        <div style="padding:1rem 1.25rem;border-bottom:1px solid #F1E7DA;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:.8rem;font-weight:700;color:#8A7A72;text-transform:uppercase">Leave Requests</span>
+          <a href="{% url 'leave_apply' %}" style="font-size:.78rem;color:#B8862C;text-decoration:none;font-weight:600">+ Apply</a>
         </div>
         {% for leave in my_leaves %}
-        <div style="padding:.85rem 1.25rem;border-bottom:1px solid #f3f4f6">
+        <div style="padding:.85rem 1.25rem;border-bottom:1px solid #F1E7DA">
           <div style="display:flex;justify-content:space-between;align-items:flex-start">
             <div>
               <div style="font-weight:600;font-size:.88rem">{{ leave.leave_type }}</div>
-              <div style="font-size:.75rem;color:#6b7280">{{ leave.start_date }} to {{ leave.end_date }}</div>
+              <div style="font-size:.75rem;color:#8A7A72">{{ leave.start_date }} to {{ leave.end_date }}</div>
             </div>
             <span class="status-badge badge-{{ leave.status|lower }}">{{ leave.status }}</span>
           </div>
@@ -263,8 +263,8 @@ new Chart(ctx, {
   data: {
     labels: {{ chart_labels|safe }},
     datasets: [
-      { label:'Present', data:{{ chart_present|safe }}, backgroundColor:'rgba(40,167,69,.8)', borderRadius:6 },
-      { label:'Absent',  data:{{ chart_absent|safe }},  backgroundColor:'rgba(220,53,69,.4)',  borderRadius:6 },
+      { label:'Present', data:{{ chart_present|safe }}, backgroundColor:'rgba(63,125,82,.85)', borderRadius:6 },
+      { label:'Absent',  data:{{ chart_absent|safe }},  backgroundColor:'rgba(162,59,59,.45)',  borderRadius:6 },
     ]
   },
   options: {

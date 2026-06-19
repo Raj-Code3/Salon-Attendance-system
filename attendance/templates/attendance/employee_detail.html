@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
-{% block title %}{{ employee.full_name }} – SalonTrack Pro{% endblock %}
+{% block title %}{{ employee.full_name }} – Raj's Salon{% endblock %}
 {% block page_title %}Employee Detail{% endblock %}
 {% block content %}
 <div class="row g-3">
   <div class="col-md-4">
     <div class="form-card text-center">
       {% if employee.profile_photo %}
-        <img src="{{ employee.profile_photo.url }}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #1F3A5F"/>
+        <img src="{{ employee.profile_photo.url }}" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid #5C1F2E"/>
       {% else %}
-        <div style="width:100px;height:100px;border-radius:50%;background:#1F3A5F;color:#fff;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;margin:0 auto">{{ employee.full_name|first|upper }}</div>
+        <div style="width:100px;height:100px;border-radius:50%;background:#5C1F2E;color:#fff;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;margin:0 auto">{{ employee.full_name|first|upper }}</div>
       {% endif %}
       <h5 class="fw-bold mt-3 mb-1">{{ employee.full_name }}</h5>
-      <div style="color:#6b7280;font-size:.85rem">{{ employee.employee_id }}</div>
+      <div style="color:#8A7A72;font-size:.85rem">{{ employee.employee_id }}</div>
       <span class="status-badge badge-{{ employee.status|lower }} mt-2 d-inline-block">{{ employee.status }}</span>
       <hr/>
       <div class="text-start" style="font-size:.85rem">
@@ -22,24 +22,24 @@
         {% if employee.address %}<div><i class="bi bi-geo-alt me-2 text-muted"></i>{{ employee.address }}</div>{% endif %}
       </div>
       <div class="d-flex gap-2 mt-3">
-        <a href="{% url 'employee_edit' employee.pk %}" class="btn btn-sm flex-fill" style="background:#1F3A5F;color:#fff;border-radius:8px">Edit</a>
+        <a href="{% url 'employee_edit' employee.pk %}" class="btn btn-sm flex-fill" style="background:#5C1F2E;color:#fff;border-radius:8px">Edit</a>
       </div>
     </div>
 
     <div class="form-card mt-3">
-      <div class="section-header">📊 This Month</div>
+      <div class="section-header"><i class="bi bi-bar-chart-fill" style="color:#B8862C"></i> This Month</div>
       <div class="row g-2 text-center">
-        <div class="col-6"><div style="background:#d1fae5;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#065f46">{{ stats.present }}</div><div style="font-size:.72rem;color:#065f46">Present</div></div></div>
-        <div class="col-6"><div style="background:#fee2e2;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#991b1b">{{ stats.absent }}</div><div style="font-size:.72rem;color:#991b1b">Absent</div></div></div>
-        <div class="col-6"><div style="background:#fef3c7;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#92400e">{{ stats.late }}</div><div style="font-size:.72rem;color:#92400e">Late</div></div></div>
-        <div class="col-6"><div style="background:#f3e8ff;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#6b21a8">{{ stats.leave }}</div><div style="font-size:.72rem;color:#6b21a8">Leave</div></div></div>
+        <div class="col-6"><div style="background:#DCEEDB;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#2F6B40">{{ stats.present }}</div><div style="font-size:.72rem;color:#2F6B40">Present</div></div></div>
+        <div class="col-6"><div style="background:#F6DEDD;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#8B2E2E">{{ stats.absent }}</div><div style="font-size:.72rem;color:#8B2E2E">Absent</div></div></div>
+        <div class="col-6"><div style="background:#F7E4C2;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#8C5A12">{{ stats.late }}</div><div style="font-size:.72rem;color:#8C5A12">Late</div></div></div>
+        <div class="col-6"><div style="background:#EFD9E6;border-radius:10px;padding:.75rem"><div style="font-size:1.5rem;font-weight:700;color:#7A3458">{{ stats.leave }}</div><div style="font-size:.72rem;color:#7A3458">Leave</div></div></div>
       </div>
     </div>
   </div>
 
   <div class="col-md-8">
     <div class="table-card card mb-3">
-      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6"><span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">Recent Attendance</span></div>
+      <div style="padding:1rem 1.25rem;border-bottom:1px solid #F1E7DA"><span style="font-size:.8rem;font-weight:700;color:#8A7A72;text-transform:uppercase">Recent Attendance</span></div>
       <table class="table table-hover mb-0">
         <thead><tr><th>Date</th><th>Check In</th><th>Check Out</th><th>Hours</th><th>Status</th></tr></thead>
         <tbody>
@@ -59,7 +59,7 @@
     </div>
 
     <div class="table-card card">
-      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6"><span style="font-size:.8rem;font-weight:700;color:#6b7280;text-transform:uppercase">Leave History</span></div>
+      <div style="padding:1rem 1.25rem;border-bottom:1px solid #F1E7DA"><span style="font-size:.8rem;font-weight:700;color:#8A7A72;text-transform:uppercase">Leave History</span></div>
       <table class="table table-hover mb-0">
         <thead><tr><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th></tr></thead>
         <tbody>

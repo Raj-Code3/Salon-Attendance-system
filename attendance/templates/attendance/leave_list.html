@@ -20,7 +20,7 @@
         <tr>
           <td>
             <div style="font-weight:600;font-size:.88rem">{{ leave.employee.full_name }}</div>
-            <div style="font-size:.75rem;color:#6b7280">{{ leave.employee.employee_id }}</div>
+            <div style="font-size:.75rem;color:#8A7A72">{{ leave.employee.employee_id }}</div>
           </td>
           <td style="font-size:.85rem">{{ leave.leave_type }}</td>
           <td style="font-size:.85rem">{{ leave.start_date }}</td>
@@ -30,11 +30,11 @@
           <td>
             {% if leave.status == 'Pending' %}
             <div class="d-flex gap-1">
-              <a href="{% url 'leave_action' leave.pk 'approve' %}" class="btn btn-sm" style="background:#d1fae5;color:#065f46;border-radius:8px;font-size:.78rem">✅ Approve</a>
-              <a href="{% url 'leave_action' leave.pk 'reject' %}" class="btn btn-sm" style="background:#fee2e2;color:#991b1b;border-radius:8px;font-size:.78rem">❌ Reject</a>
+              <a href="{% url 'leave_action' leave.pk 'approve' %}" class="btn btn-sm" style="background:#DCEEDB;color:#2F6B40;border-radius:8px;font-size:.78rem">✅ Approve</a>
+              <a href="{% url 'leave_action' leave.pk 'reject' %}" class="btn btn-sm" style="background:#F6DEDD;color:#8B2E2E;border-radius:8px;font-size:.78rem">❌ Reject</a>
             </div>
             {% else %}
-            <span style="font-size:.78rem;color:#6b7280">—</span>
+            <span style="font-size:.78rem;color:#8A7A72">—</span>
             {% endif %}
           </td>
         </tr>

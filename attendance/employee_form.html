@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{ title }} – SalonTrack Pro{% endblock %}
+{% block title %}{{ title }} – Raj's Salon{% endblock %}
 {% block page_title %}{{ title }}{% endblock %}
 {% block content %}
 <div class="row justify-content-center">
@@ -49,9 +49,9 @@
             {{ form.profile_photo }}
           </div>
 
-          <div class="col-12"><hr style="border-color:#e5e7eb"/></div>
+          <div class="col-12"><hr style="border-color:#E8DCC8"/></div>
           <div class="col-12">
-            <div style="background:#dbeafe;border-radius:10px;padding:.85rem 1rem;font-size:.85rem;color:#1d4ed8;margin-bottom:.5rem">
+            <div style="background:#F6E8C8;border-radius:10px;padding:.85rem 1rem;font-size:.85rem;color:#9C6B16;margin-bottom:.5rem">
               🔑 <strong>Login Credentials</strong> — Employee will use these to log in
             </div>
           </div>
@@ -75,7 +75,7 @@
         {% endif %}
 
         <div class="d-flex gap-2 mt-4">
-          <button type="submit" class="btn" style="background:#1F3A5F;color:#fff;border-radius:10px;font-weight:600;padding:.65rem 1.5rem">
+          <button type="submit" class="btn" style="background:#5C1F2E;color:#fff;border-radius:10px;font-weight:600;padding:.65rem 1.5rem">
             <i class="bi bi-check-circle me-2"></i>Save Employee
           </button>
           <a href="{% url 'employee_list' %}" class="btn btn-outline-secondary" style="border-radius:10px">Cancel</a>
