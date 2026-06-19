@@ -5,115 +5,80 @@
 {% block content %}
 <style>
 .cal-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
-.cal-title { font-family:'Inter',sans-serif; font-size:1.3rem; font-weight:700; color:#1F3A5F; }
+.cal-title { font-size:1.3rem; font-weight:700; color:#1F3A5F; }
 .cal-btn { background:#1F3A5F; color:#fff; border:none; border-radius:10px; padding:.5rem 1.2rem; font-weight:600; cursor:pointer; text-decoration:none; font-size:.88rem; }
 .cal-btn:hover { background:#264a78; color:#fff; }
 
 .calendar-grid { background:#fff; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,.07); overflow:hidden; }
 .cal-header { display:grid; grid-template-columns:repeat(7,1fr); }
-.cal-header-cell { padding:.75rem; text-align:center; font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:#6b7280; background:#f9fafb; border-bottom:1px solid #e5e7eb; }
+.cal-header-cell { padding:.75rem; text-align:center; font-size:.78rem; font-weight:700; text-transform:uppercase; color:#6b7280; background:#f9fafb; border-bottom:1px solid #e5e7eb; }
 .cal-header-cell.sunday { color:#DC3545; }
-
 .cal-week { display:grid; grid-template-columns:repeat(7,1fr); border-bottom:1px solid #f3f4f6; }
 .cal-week:last-child { border-bottom:none; }
-
-.cal-day {
-  min-height:90px; padding:.6rem; border-right:1px solid #f3f4f6;
-  position:relative; cursor:pointer; transition:background .15s;
-}
+.cal-day { min-height:85px; padding:.6rem; border-right:1px solid #f3f4f6; cursor:pointer; transition:background .15s; }
 .cal-day:last-child { border-right:none; }
 .cal-day:hover { background:#f8fafc; }
 .cal-day.empty { background:#fafafa; cursor:default; }
-.cal-day.today { background:#eff6ff; }
-.cal-day.future { opacity:.6; cursor:default; }
+.day-num { font-size:.82rem; font-weight:700; color:#374151; margin-bottom:.35rem; width:24px; height:24px; display:flex; align-items:center; justify-content:center; border-radius:50%; }
+.day-num.is-today { background:#1F3A5F; color:#fff; }
+.day-badge { font-size:.68rem; font-weight:600; padding:.15rem .45rem; border-radius:5px; display:inline-block; margin-bottom:.2rem; }
+.day-time { font-size:.65rem; color:#6b7280; }
 
-.day-num { font-size:.82rem; font-weight:700; color:#374151; margin-bottom:.35rem; }
-.cal-day.today .day-num { background:#1F3A5F; color:#fff; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.75rem; }
-
-.day-badge { font-size:.7rem; font-weight:600; padding:.2rem .5rem; border-radius:6px; display:inline-block; margin-bottom:.25rem; }
-.badge-present-cal  { background:#d1fae5; color:#065f46; }
-.badge-absent-cal   { background:#fee2e2; color:#991b1b; }
-.badge-late-cal     { background:#fef3c7; color:#92400e; }
-.badge-halfday-cal  { background:#e0e7ff; color:#3730a3; }
-.badge-leave-cal    { background:#f3e8ff; color:#6b21a8; }
-.badge-holiday-cal  { background:#fee2e2; color:#991b1b; }
-.badge-sunday-cal   { background:#fee2e2; color:#991b1b; }
-.badge-working-cal  { background:#d1fae5; color:#065f46; }
-
-.day-time { font-size:.68rem; color:#6b7280; margin-top:.15rem; }
-
-/* Modal */
 .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000; align-items:center; justify-content:center; }
 .modal-overlay.show { display:flex; }
-.modal-box { background:#fff; border-radius:16px; padding:1.75rem; width:100%; max-width:420px; box-shadow:0 20px 60px rgba(0,0,0,.2); }
+.modal-box { background:#fff; border-radius:16px; padding:1.75rem; width:100%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,.2); }
 .modal-title { font-weight:700; font-size:1.1rem; margin-bottom:1rem; color:#1F3A5F; }
 .modal-row { display:flex; justify-content:space-between; padding:.6rem 0; border-bottom:1px solid #f3f4f6; font-size:.88rem; }
 .modal-row:last-child { border-bottom:none; }
 .modal-label { color:#6b7280; font-weight:500; }
-.modal-val { font-weight:600; color:#374151; }
-.modal-close { background:#1F3A5F; color:#fff; border:none; border-radius:10px; padding:.6rem 1.5rem; cursor:pointer; font-weight:600; margin-top:1rem; width:100%; }
+.modal-val { font-weight:600; }
+.modal-close { background:#1F3A5F; color:#fff; border:none; border-radius:10px; padding:.65rem; cursor:pointer; font-weight:600; margin-top:1rem; width:100%; font-size:.9rem; }
 
-/* Legend */
-.legend { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.25rem; }
-.legend-item { display:flex; align-items:center; gap:.35rem; font-size:.75rem; color:#6b7280; }
-.legend-dot { width:12px; height:12px; border-radius:3px; }
-
-/* Stats row */
 .month-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:.75rem; margin-bottom:1.5rem; }
 .stat-mini { background:#fff; border-radius:12px; padding:.85rem; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,.06); }
-.stat-mini-val { font-size:1.5rem; font-weight:700; }
+.stat-mini-val { font-size:1.6rem; font-weight:700; }
 .stat-mini-lbl { font-size:.72rem; color:#6b7280; margin-top:.2rem; }
+
+.legend { display:flex; flex-wrap:wrap; gap:.6rem; margin-bottom:1.25rem; }
+.legend-item { display:flex; align-items:center; gap:.35rem; font-size:.75rem; color:#6b7280; }
+.legend-dot { width:12px; height:12px; border-radius:3px; }
 </style>
 
-<!-- Navigation -->
 <div class="cal-nav">
   <a href="?month={{ prev_month }}&year={{ prev_year }}" class="cal-btn">← Prev</a>
   <div class="cal-title">{{ month_name }} {{ year }}</div>
   <a href="?month={{ next_month }}&year={{ next_year }}" class="cal-btn">Next →</a>
 </div>
 
-<!-- Monthly stats -->
 <div class="month-stats">
   <div class="stat-mini">
-    <div class="stat-mini-val" style="color:#28A745">
-      {% with present_count=0 %}
-      {{ att_dict.values|length }}
-      {% endwith %}
-    </div>
-    <div class="stat-mini-lbl">Days Recorded</div>
+    <div class="stat-mini-val" style="color:#28A745">{{ stats.present }}</div>
+    <div class="stat-mini-lbl">Present</div>
   </div>
   <div class="stat-mini">
-    <div class="stat-mini-val" style="color:#28A745">
-      {% for d, att in att_dict.items %}{% if att.status == 'Present' or att.status == 'Late' %}✓{% endif %}{% endfor %}
-    </div>
-    <div class="stat-mini-lbl">Present + Late</div>
-  </div>
-  <div class="stat-mini">
-    <div class="stat-mini-val" style="color:#DC3545">
-      {% for d, att in att_dict.items %}{% if att.status == 'Absent' %}✗{% endif %}{% endfor %}
-    </div>
+    <div class="stat-mini-val" style="color:#DC3545">{{ stats.absent }}</div>
     <div class="stat-mini-lbl">Absent</div>
   </div>
   <div class="stat-mini">
-    <div class="stat-mini-val" style="color:#FFC107">
-      {% for d, att in att_dict.items %}{% if att.status == 'Late' %}L{% endif %}{% endfor %}
-    </div>
+    <div class="stat-mini-val" style="color:#FFC107">{{ stats.late }}</div>
     <div class="stat-mini-lbl">Late</div>
+  </div>
+  <div class="stat-mini">
+    <div class="stat-mini-val" style="color:#8b5cf6">{{ stats.leave }}</div>
+    <div class="stat-mini-lbl">Leave</div>
   </div>
 </div>
 
-<!-- Legend -->
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#d1fae5"></div> Present</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#fef3c7"></div> Late</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#fee2e2"></div> Absent</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#e0e7ff"></div> Half Day</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#f3e8ff"></div> Leave</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#fee2e2"></div> Holiday/Sunday</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d1fae5"></div>Present</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fef3c7"></div>Late</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fee2e2"></div>Absent</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#e0e7ff"></div>Half Day</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f3e8ff"></div>Leave</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fecaca"></div>Holiday/Sunday</div>
 </div>
 
-<!-- Calendar -->
-<div class="calendar-grid">
+<div class="calendar-grid" id="calGrid">
   <div class="cal-header">
     <div class="cal-header-cell sunday">Sun</div>
     <div class="cal-header-cell">Mon</div>
@@ -123,124 +88,158 @@
     <div class="cal-header-cell">Fri</div>
     <div class="cal-header-cell">Sat</div>
   </div>
-
-  {% for week in calendar %}
-  <div class="cal-week">
-    {% for day in week %}
-    {% if day == 0 %}
-      <div class="cal-day empty"></div>
-    {% else %}
-      {% with current_date=year|stringformat:'04d' %}
-      {% comment %}Build date string{% endcomment %}
-      {% endwith %}
-
-      {% comment %}Check day status{% endcomment %}
-      {% with day_str=day %}
-
-      <div class="cal-day
-        {% if day == today.day and month == today.month and year == today.year %}today{% endif %}
-        {% if day > today.day and month >= today.month and year >= today.year %}future{% endif %}"
-        onclick="showDay({{ day }}, {{ month }}, {{ year }}, this)"
-        data-day="{{ day }}" data-month="{{ month }}" data-year="{{ year }}">
-
-        <div class="day-num">{{ day }}</div>
-
-        {% for att_date, att in att_dict.items %}
-          {% if att_date.day == day %}
-            <span class="day-badge badge-{{ att.status|lower|cut:' ' }}-cal">{{ att.status }}</span>
-            {% if att.check_in %}
-            <div class="day-time">In: {{ att.check_in|time:"h:i A" }}</div>
-            {% endif %}
-            {% if att.check_out %}
-            <div class="day-time">Out: {{ att.check_out|time:"h:i A" }}</div>
-            {% endif %}
-          {% endif %}
-        {% endfor %}
-
-        {% for h in holiday_list %}
-          {% if h.day == day %}
-            <span class="day-badge badge-holiday-cal">Holiday</span>
-          {% endif %}
-        {% endfor %}
-
-        {% comment %}Sunday check (forloop.counter0 == 0 means Sunday){% endcomment %}
-        {% if forloop.counter0 == 0 %}
-          {% with is_working=False %}
-          {% for ws in working_sundays %}
-            {% if ws.day == day %}
-              <span class="day-badge badge-working-cal">Working</span>
-            {% endif %}
-          {% endfor %}
-          {% endwith %}
-          {% with found_working=False %}
-          {% for att_date, att in att_dict.items %}{% if att_date.day == day %}{% with found_working=True %}{% endwith %}{% endif %}{% endfor %}
-          {% endwith %}
-        {% endif %}
-
-      </div>
-      {% endwith %}
-    {% endif %}
-    {% endfor %}
-  </div>
-  {% endfor %}
+  <div id="calBody"></div>
 </div>
 
-<!-- Modal -->
 <div class="modal-overlay" id="dayModal">
   <div class="modal-box">
-    <div class="modal-title" id="modalTitle">Day Details</div>
+    <div class="modal-title" id="modalTitle"></div>
     <div id="modalContent"></div>
     <button class="modal-close" onclick="closeModal()">Close</button>
   </div>
 </div>
 
-<!-- Hidden attendance data for JS -->
 <script>
-const attData = {
-  {% for att_date, att in att_dict.items %}
-  "{{ att_date|date:'Y-m-d' }}": {
-    status: "{{ att.status }}",
-    checkIn: "{{ att.check_in|time:'h:i A'|default:'' }}",
-    checkOut: "{{ att.check_out|time:'h:i A'|default:'' }}",
-    hours: "{{ att.total_hours|default:'' }}"
-  },
-  {% endfor %}
-};
+const attData       = {{ att_dict_json|safe }};
+const holidays      = {{ holiday_list_json|safe }};
+const workingSun    = {{ working_sundays_json|safe }};
+const todayStr      = "{{ today_str }}";
+const calData       = {{ calendar|safe }};
+const month         = {{ month }};
+const year          = {{ year }};
 
-const holidays = [{% for h in holiday_list %}"{{ h|date:'Y-m-d' }}",{% endfor %}];
-const workingSundays = [{% for ws in working_sundays %}"{{ ws|date:'Y-m-d' }}",{% endfor %}];
-const todayStr = "{{ today|date:'Y-m-d' }}";
+const statusColors = {
+  'Present':  { bg:'#d1fae5', color:'#065f46' },
+  'Late':     { bg:'#fef3c7', color:'#92400e' },
+  'Absent':   { bg:'#fee2e2', color:'#991b1b' },
+  'Half Day': { bg:'#e0e7ff', color:'#3730a3' },
+  'Leave':    { bg:'#f3e8ff', color:'#6b21a8' },
+};
 
 function pad(n) { return String(n).padStart(2, '0'); }
 
-function showDay(day, month, year, el) {
-  const dateStr = year + '-' + pad(month) + '-' + pad(day);
-  const att = attData[dateStr];
-  const isHoliday = holidays.includes(dateStr);
-  const isWorkingSunday = workingSundays.includes(dateStr);
+function buildCalendar() {
+  const body = document.getElementById('calBody');
+  body.innerHTML = '';
+
+  calData.forEach(week => {
+    const weekDiv = document.createElement('div');
+    weekDiv.className = 'cal-week';
+
+    week.forEach((day, idx) => {
+      const cell = document.createElement('div');
+
+      if (day === 0) {
+        cell.className = 'cal-day empty';
+        weekDiv.appendChild(cell);
+        return;
+      }
+
+      const dateStr = year + '-' + pad(month) + '-' + pad(day);
+      const att     = attData[dateStr];
+      const isHol   = holidays.includes(dateStr);
+      const isSun   = idx === 0;
+      const isWorkSun = workingSun.includes(dateStr);
+      const isToday = dateStr === todayStr;
+      const isFuture = dateStr > todayStr;
+
+      cell.className = 'cal-day';
+      if (!isFuture) cell.onclick = () => showDay(dateStr, day);
+
+      // Day number
+      const numDiv = document.createElement('div');
+      numDiv.className = 'day-num' + (isToday ? ' is-today' : '');
+      numDiv.textContent = day;
+      cell.appendChild(numDiv);
+
+      // Holiday
+      if (isHol) {
+        const b = document.createElement('span');
+        b.className = 'day-badge';
+        b.style.cssText = 'background:#fecaca;color:#991b1b';
+        b.textContent = 'Holiday';
+        cell.appendChild(b);
+      }
+      // Sunday (not working)
+      else if (isSun && !isWorkSun && !att) {
+        cell.style.background = '#fff5f5';
+        const b = document.createElement('span');
+        b.className = 'day-badge';
+        b.style.cssText = 'background:#fecaca;color:#991b1b';
+        b.textContent = 'Sunday';
+        cell.appendChild(b);
+      }
+      // Attendance
+      else if (att) {
+        const sc = statusColors[att.status] || { bg:'#f3f4f6', color:'#374151' };
+        const b = document.createElement('span');
+        b.className = 'day-badge';
+        b.style.cssText = `background:${sc.bg};color:${sc.color}`;
+        b.textContent = att.status;
+        cell.appendChild(b);
+
+        if (att.check_in) {
+          const t = document.createElement('div');
+          t.className = 'day-time';
+          t.textContent = '▶ ' + att.check_in;
+          cell.appendChild(t);
+        }
+        if (att.check_out) {
+          const t = document.createElement('div');
+          t.className = 'day-time';
+          t.textContent = '◀ ' + att.check_out;
+          cell.appendChild(t);
+        }
+      }
+      // Future
+      else if (isFuture) {
+        cell.style.opacity = '0.5';
+        cell.style.cursor = 'default';
+      }
+      // No record (past working day)
+      else {
+        const b = document.createElement('span');
+        b.className = 'day-badge';
+        b.style.cssText = 'background:#fee2e2;color:#991b1b';
+        b.textContent = 'Absent';
+        cell.appendChild(b);
+      }
+
+      weekDiv.appendChild(cell);
+    });
+
+    body.appendChild(weekDiv);
+  });
+}
+
+function showDay(dateStr, day) {
+  const att      = attData[dateStr];
+  const isHol    = holidays.includes(dateStr);
+  const d        = new Date(dateStr);
+  const isSun    = d.getDay() === 0;
+  const isWorkSun = workingSun.includes(dateStr);
   const isFuture = dateStr > todayStr;
 
-  const d = new Date(year, month-1, day);
-  const isSunday = d.getDay() === 0;
-
-  document.getElementById('modalTitle').textContent = d.toDateString();
+  const options = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  document.getElementById('modalTitle').textContent = d.toLocaleDateString('en-IN', options);
 
   let html = '';
 
   if (isFuture) {
-    html = '<div style="text-align:center;padding:1rem;color:#6b7280">📅 This date is in the future.</div>';
-  } else if (isHoliday) {
-    html = '<div style="text-align:center;padding:1rem"><span style="font-size:2rem">🎉</span><br/><strong>Public Holiday</strong></div>';
-  } else if (isSunday && !isWorkingSunday) {
-    html = '<div style="text-align:center;padding:1rem"><span style="font-size:2rem">☀️</span><br/><strong>Sunday Holiday</strong></div>';
+    html = '<div style="text-align:center;padding:1.5rem;color:#6b7280"><div style="font-size:2.5rem">📅</div><div style="margin-top:.5rem">Future date — not yet recorded</div></div>';
+  } else if (isHol) {
+    html = '<div style="text-align:center;padding:1.5rem"><div style="font-size:2.5rem">🎉</div><div style="margin-top:.5rem;font-weight:600">Public Holiday</div></div>';
+  } else if (isSun && !isWorkSun && !att) {
+    html = '<div style="text-align:center;padding:1.5rem"><div style="font-size:2.5rem">☀️</div><div style="margin-top:.5rem;font-weight:600">Sunday Holiday</div></div>';
   } else if (att) {
-    html += '<div class="modal-row"><span class="modal-label">Status</span><span class="modal-val">' + att.status + '</span></div>';
-    if (att.checkIn) html += '<div class="modal-row"><span class="modal-label">Check In</span><span class="modal-val">' + att.checkIn + '</span></div>';
-    if (att.checkOut) html += '<div class="modal-row"><span class="modal-label">Check Out</span><span class="modal-val">' + att.checkOut + '</span></div>';
-    if (att.hours) html += '<div class="modal-row"><span class="modal-label">Hours Worked</span><span class="modal-val">' + att.hours + ' hrs</span></div>';
-    if (!att.checkIn) html += '<div style="text-align:center;padding:.5rem;color:#DC3545;font-size:.85rem">No attendance marked</div>';
+    const sc = statusColors[att.status] || { bg:'#f3f4f6', color:'#374151' };
+    html += `<div class="modal-row"><span class="modal-label">Status</span><span class="modal-val" style="color:${sc.color}">${att.status}</span></div>`;
+    if (att.check_in)  html += `<div class="modal-row"><span class="modal-label">Check In</span><span class="modal-val">▶ ${att.check_in}</span></div>`;
+    if (att.check_out) html += `<div class="modal-row"><span class="modal-label">Check Out</span><span class="modal-val">◀ ${att.check_out}</span></div>`;
+    if (att.hours)     html += `<div class="modal-row"><span class="modal-label">Hours Worked</span><span class="modal-val">${att.hours} hrs</span></div>`;
+    if (!att.check_in) html += `<div style="text-align:center;padding:.75rem;color:#DC3545;font-size:.85rem">No check-in recorded</div>`;
   } else {
-    html = '<div style="text-align:center;padding:1rem;color:#DC3545">❌ No attendance marked for this day.</div>';
+    html = '<div style="text-align:center;padding:1.5rem"><div style="font-size:2.5rem">❌</div><div style="margin-top:.5rem;color:#DC3545;font-weight:600">Absent — No attendance marked</div></div>';
   }
 
   document.getElementById('modalContent').innerHTML = html;
@@ -254,5 +253,7 @@ function closeModal() {
 document.getElementById('dayModal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
+
+buildCalendar();
 </script>
 {% endblock %}
